@@ -1,4 +1,4 @@
-// The coach runs only inside the ShapeAI Android app, which opens app.html?source=android.
+// The coach runs only inside the ShapeCoach Android app, which opens app.html?source=android.
 // Anyone else who opens this page in a browser is sent to the website, which describes the
 // app and links to Google Play. This runs before the page renders, so nothing flashes.
 (function () {

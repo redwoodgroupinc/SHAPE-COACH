@@ -1,7 +1,7 @@
 {
-  "name": "ShapeAI",
-  "short_name": "ShapeAI",
-  "description": "ShapeAI is an AI personal trainer app for Android: she recognises your exercise, counts reps, checks your form and talks you through it.",
+  "name": "ShapeCoach",
+  "short_name": "ShapeCoach",
+  "description": "ShapeCoach is an AI personal trainer app for Android: she recognises your exercise, counts reps, checks your form and talks you through it.",
   "id": "/",
   "start_url": "/",
   "scope": "/",

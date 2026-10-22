@@ -1,8 +1,8 @@
 {
   "packageId": "net.shapecoach.app",
   "host": "shapecoach-theta.vercel.app",
-  "name": "ShapeAI",
-  "launcherName": "ShapeAI",
+  "name": "ShapeCoach",
+  "launcherName": "ShapeCoach",
   "display": "standalone",
   "themeColor": "#07080A",
   "themeColorDark": "#07080A",
@@ -20,8 +20,8 @@
     "path": "./upload-keystore.jks",
     "alias": "upload"
   },
-  "appVersionName": "1.1.1",
-  "appVersionCode": 3,
+  "appVersionName": "1.1.2",
+  "appVersionCode": 4,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://shapecoach-theta.vercel.app/manifest.webmanifest",
@@ -43,5 +43,5 @@
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
   "displayOverride": [],
-  "appVersion": "1.1.1"
+  "appVersion": "1.1.2"
 }

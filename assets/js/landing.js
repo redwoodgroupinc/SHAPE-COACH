@@ -17,7 +17,7 @@ setupAppLinks();
 const year = document.getElementById('year');
 if (year) year.textContent = String(new Date().getFullYear());
 
-// Inside the ShapeAI Android app (which can reach these pages through links), the download
+// Inside the ShapeCoach Android app (which can reach these pages through links), the download
 // buttons lead back to the coach instead of to the app's own Google Play listing.
 function setupAppLinks() {
   let inApp = false;

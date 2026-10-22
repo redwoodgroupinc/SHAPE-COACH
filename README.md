@@ -1,4 +1,4 @@
-# ShapeAI
+# ShapeCoach
 
 An AI personal trainer app for Android. Prop the phone up, press **Start coaching** and move.
 There is no exercise to pick: the coach recognises what you're doing from your first rep, counts
@@ -13,7 +13,7 @@ inside the app.
 | --- | --- |
 | `index.html` | Information page about the app, with Google Play links. It does not provide the coach. The animated phone in the hero is a procedural athlete switching between squats, presses and curls, recognised live by the real coaching engine. It isn't a video. |
 | `app.html` | The coach, shown inside the Android app only: `assets/js/app-gate.js` sends anyone who opens it in a normal browser to `index.html`. One Start button, then automatic exercise recognition. Camera, video-file and demo modes, live HUD, her voice cues, per-set summaries and history. |
-| `privacy.html`, `terms.html` | Privacy policy and terms, including the ShapeAI Premium subscription terms. |
+| `privacy.html`, `terms.html` | Privacy policy and terms, including the ShapeCoach Premium subscription terms. |
 | `api/verify-purchase.js` | Vercel function that verifies and acknowledges Google Play purchases. |
 | `android/` | The Android app: a Trusted Web Activity around `app.html` with Google Play Billing. See [docs/PLAY_STORE.md](docs/PLAY_STORE.md). |
 | `brand/` | Logo files (the Rep Ring mark, lockups, app icon) and the six logo directions that were explored. |
@@ -186,12 +186,12 @@ tests/            node:test suites
 scripts/          dev server, Android bundle signing
 ```
 
-## Android app and ShapeAI Premium
+## Android app and ShapeCoach Premium
 
 `android/` is a [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) Trusted Web Activity
 (package `net.shapecoach.app`) that opens `app.html?source=android` in Chrome, so the camera,
 pose model and voice behave exactly as on the web. Inside the app, the live coach and video
-analysis need **ShapeAI Premium** (`shapecoach_premium`, US$14.99 a month), sold through Google
+analysis need **ShapeCoach Premium** (`shapecoach_premium`, US$14.99 a month), sold through Google
 Play Billing via the Digital Goods and Payment Request APIs (`assets/js/app/billing.js`). Each
 purchase is acknowledged by `api/verify-purchase.js`; Play refunds unacknowledged subscriptions
 after three days. The app opens on the Premium offer for anyone not subscribed; the in-app demo

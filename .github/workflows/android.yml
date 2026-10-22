@@ -1,6 +1,6 @@
 name: Android app
 
-# Builds the ShapeAI Android App Bundle (a Trusted Web Activity around the website).
+# Builds the ShapeCoach Android App Bundle (a Trusted Web Activity around the website).
 # The bundle is built unsigned: the upload key never lives in this public repository.
 # Sign it locally before uploading to Play Console (see docs/PLAY_STORE.md).
 
@@ -57,7 +57,7 @@ jobs:
           mkdir out
           cp android/app/build/outputs/bundle/release/app-release.aab out/shapecoach-unsigned.aab
           cd out
-          printf 'Unsigned ShapeAI release bundle\nSource commit: %s\nBranch: %s\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" > BUILD.txt
+          printf 'Unsigned ShapeCoach release bundle\nSource commit: %s\nBranch: %s\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" > BUILD.txt
           git init -q -b android-build
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
