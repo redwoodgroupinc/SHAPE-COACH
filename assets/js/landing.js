@@ -12,9 +12,27 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 setupNav();
 setupReveal();
 setupHero();
+setupAppLinks();
 
 const year = document.getElementById('year');
 if (year) year.textContent = String(new Date().getFullYear());
+
+// Inside the ShapeAI Android app (which can reach these pages through links), the download
+// buttons lead back to the coach instead of to the app's own Google Play listing.
+function setupAppLinks() {
+  let inApp = false;
+  try {
+    inApp = sessionStorage.getItem('shapecoach.androidApp') === '1';
+  } catch {
+    // Storage blocked: keep the download links.
+  }
+  if (!inApp) return;
+  for (const link of document.querySelectorAll('[data-get-app]')) {
+    link.href = 'app.html?source=android';
+    const label = link.querySelector('[data-label]');
+    if (label) label.textContent = 'Open the coach';
+  }
+}
 
 function setupNav() {
   const header = document.querySelector('.site-header');

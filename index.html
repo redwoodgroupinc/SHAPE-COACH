@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>ShapeCoach · Real-time form feedback from your phone camera</title>
-  <meta name="description" content="Prop up your phone, press start and train. Your AI coach recognises the exercise on her own, counts reps, spots bad form like knees caving in or a rounding back, and talks you through it mid-set. Pose estimation runs on your device, so your video stays private.">
+  <title>ShapeAI · The AI personal trainer app for Android</title>
+  <meta name="description" content="ShapeAI is an AI personal trainer app for Android. Prop up your phone and train: she recognises your exercise, counts reps, spots bad form like knees caving in or a rounding back, and talks you through it mid-set. Free to download on Google Play.">
   <meta name="theme-color" content="#07080a">
-  <meta property="og:title" content="ShapeCoach">
-  <meta property="og:description" content="Your phone becomes a personal trainer. She recognises your exercise, counts reps, checks your form and talks you through it. Runs on-device.">
+  <meta property="og:title" content="ShapeAI">
+  <meta property="og:description" content="The AI personal trainer app for Android. She recognises your exercise, counts reps, checks your form and talks you through it. Get it on Google Play.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
+  <meta property="og:image" content="https://shapecoach-theta.vercel.app/assets/img/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
@@ -37,23 +38,24 @@
     <symbol id="i-cpu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 9.5h5v5h-5zM9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/></g></symbol>
     <symbol id="i-cloud-off" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10.5a3.5 3.5 0 0 0 .6-6.95A6 6 0 0 0 6.6 10.2 4 4 0 0 0 7 18z"/><path d="M3 3l18 18"/></g></symbol>
     <symbol id="i-plate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/></g></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/></g></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </svg>
 
   <header class="site-header" id="top">
     <nav class="container nav" aria-label="Main">
-      <a class="brand" href="#top" aria-label="ShapeCoach home">
-        <img class="brand-mark" src="assets/img/favicon.svg" alt="" width="32" height="32">
-        <span class="brand-name">Shape<span>Coach</span></span>
+      <a class="brand" href="#top" aria-label="ShapeAI home">
+        <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="32" height="32">
+        <span class="brand-name">Shape<span>AI</span></span>
       </a>
       <ul class="nav-links" id="nav-links">
         <li><a href="#how">How it works</a></li>
         <li><a href="#privacy">Privacy</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a class="nav-cta" href="app.html">Try it live</a></li>
+        <li><a class="nav-cta" href="https://play.google.com/store/apps/details?id=net.shapecoach.app" data-get-app><span data-label>Get the app</span></a></li>
       </ul>
       <div class="nav-actions">
-        <a class="btn btn-primary btn-sm" href="app.html">Try it live</a>
+        <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=net.shapecoach.app" data-get-app><span data-label>Get the app</span></a>
         <button class="btn btn-ghost btn-icon nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
           <svg aria-hidden="true"><use href="#i-menu"/></svg>
         </button>
@@ -67,29 +69,29 @@
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
-          <span class="pill hero-badge"><span class="dot"></span> On-device AI · No video uploads</span>
+          <span class="pill hero-badge"><span class="dot"></span> Android app · On-device AI</span>
           <h1>A personal trainer that <em>watches every rep.</em></h1>
           <p class="hero-lede">
-            Prop up your phone, press start and move. There's no exercise to pick: your coach
-            recognises what you're doing on her own, counts every rep, catches bad form like
-            <strong>knees caving in</strong> or a <strong>rounding back</strong>, and talks you
-            through it mid-set.
+            ShapeAI turns your phone into a personal trainer. Prop it up, press start and move.
+            There's no exercise to pick: she recognises what you're doing on her own, counts every
+            rep, catches bad form like <strong>knees caving in</strong> or a <strong>rounding back</strong>,
+            and talks you through it mid-set.
           </p>
           <div class="hero-ctas">
-            <a class="btn btn-primary btn-lg" href="app.html">
-              Start coaching
-              <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+            <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=net.shapecoach.app" data-get-app>
+              <svg aria-hidden="true"><use href="#i-download"/></svg>
+              <span data-label>Get it on Google Play</span>
             </a>
-            <a class="btn btn-lg" href="app.html?demo=1">
-              <svg aria-hidden="true"><use href="#i-play"/></svg>
-              Watch a demo
+            <a class="btn btn-lg" href="#how">
+              See how it works
+              <svg aria-hidden="true"><use href="#i-arrow"/></svg>
             </a>
           </div>
           <ul class="hero-proof">
             <li><svg aria-hidden="true"><use href="#i-check"/></svg> No exercise to pick</li>
-            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Works in your browser today</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Free to download</li>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg> No account needed</li>
-            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Android app coming to Google Play</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Video never leaves your phone</li>
           </ul>
         </div>
 
@@ -157,7 +159,7 @@
             <span class="step-num">01</span>
             <span class="step-icon"><svg aria-hidden="true"><use href="#i-phone"/></svg></span>
             <h3>Prop up your phone</h3>
-            <p>Lean it against a water bottle 2–3 m away so your whole body is in frame, and press start. There's nothing to choose.</p>
+            <p>Open ShapeAI and lean your phone against a water bottle 2–3 m away so your whole body is in frame. Press start. There's nothing to choose.</p>
           </li>
           <li class="step reveal">
             <span class="step-num">02</span>
@@ -224,7 +226,7 @@
           <span class="eyebrow">Privacy</span>
           <h2>Your camera feed never leaves your phone.</h2>
           <p>
-            ShapeCoach uses on-device pose estimation (Google's MediaPipe).
+            ShapeAI uses on-device pose estimation (Google's MediaPipe).
             The model turns each frame into 33 body coordinates right on your device. Only those numbers
             are used to coach you. Video is never recorded, uploaded or stored.
           </p>
@@ -253,7 +255,7 @@
         <header class="section-head">
           <span class="eyebrow">Better together</span>
           <h2>Snap your meals. Perfect your reps.</h2>
-          <p>ShapeCoach is built to pair with the My Diet camera. One camera-first routine for what you eat and how you train.</p>
+          <p>ShapeAI is built to pair with the My Diet camera. One camera-first routine for what you eat and how you train.</p>
         </header>
         <div class="pair">
           <article class="pair-card reveal">
@@ -268,7 +270,7 @@
           <div class="pair-plus" aria-hidden="true"><svg><use href="#i-plus"/></svg></div>
           <article class="pair-card is-accent reveal">
             <span class="pair-icon"><svg aria-hidden="true"><use href="#i-pose"/></svg></span>
-            <h3>ShapeCoach</h3>
+            <h3>ShapeAI</h3>
             <p>Prop up your phone and get coached through every rep.</p>
             <ul class="checklist small">
               <li><svg aria-hidden="true"><use href="#i-check"/></svg> Real-time rep counting and form checks</li>
@@ -293,7 +295,7 @@
           </details>
           <details>
             <summary>Do I need any equipment?</summary>
-            <p>Just a phone or laptop with a camera. Prop it somewhere stable, like against a water bottle or on a shelf, so your whole body is in frame.</p>
+            <p>Just an Android phone with a camera. Prop it somewhere stable, like against a water bottle or on a shelf, so your whole body is in frame.</p>
           </details>
           <details>
             <summary>Is my video uploaded anywhere?</summary>
@@ -309,38 +311,45 @@
           </details>
           <details>
             <summary>Can I change her voice?</summary>
-            <p>She automatically uses the best female voice your phone or browser offers. You can pick a different one, or turn voice off, in the coach's settings.</p>
+            <p>She automatically uses the best female voice your phone offers. You can pick a different one, or turn voice off, in the app's settings.</p>
           </details>
           <details>
             <summary>Does it work offline?</summary>
-            <p>ShapeCoach downloads its pose engine and model once (about 17 MB) and keeps them for next time, so later sessions start quickly. You need a connection to open it. Once a session has started, it keeps coaching if your connection drops.</p>
+            <p>The app downloads its pose engine and model once (about 17 MB) and keeps them for next time, so later sessions start quickly. You need a connection to open it. Once a session has started, it keeps coaching if your connection drops.</p>
           </details>
           <details>
             <summary>How much does it cost?</summary>
-            <p>The demo is free. In the Android app, the live coach is part of ShapeCoach Premium: US$14.99 a month through Google Play (the price in your currency is shown before you pay). It renews monthly until you cancel, which you can do at any time in Google Play under Payments &amp; subscriptions.</p>
+            <p>ShapeAI is free to download from Google Play. The live coach and video analysis are part of ShapeAI Premium: US$14.99 a month, billed by Google Play (the price in your currency is shown before you pay). It renews monthly until you cancel, which you can do at any time in Google Play under Payments &amp; subscriptions. A short demo inside the app is free.</p>
+          </details>
+          <details>
+            <summary>Can I use ShapeAI in my browser?</summary>
+            <p>No. This website only introduces ShapeAI. The coach itself lives in the ShapeAI app for Android, which you can download from Google Play.</p>
+          </details>
+          <details>
+            <summary>Which phones does it work on?</summary>
+            <p>Android phones running Android 6.0 or later with Google Chrome installed and up to date. A recent phone gives the smoothest tracking. There is no iPhone version yet.</p>
           </details>
           <details>
             <summary>Is this a replacement for a coach or physiotherapist?</summary>
-            <p>No. ShapeCoach gives general technique feedback to help you train more consistently. It is not medical advice. If something hurts, stop and talk to a qualified professional.</p>
+            <p>No. ShapeAI gives general technique feedback to help you train more consistently. It is not medical advice. If something hurts, stop and talk to a qualified professional.</p>
           </details>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="cta">
+    <section class="cta" id="get-app">
       <div class="container">
         <div class="cta-card reveal">
           <h2>Your next set, coached.</h2>
-          <p>Open the coach, prop up your phone, press start and do five squats. She'll recognise them on the first rep.</p>
+          <p>Get ShapeAI, prop up your phone, press start and do five squats. She'll recognise them on the first rep.</p>
           <div class="hero-ctas">
-            <a class="btn btn-primary btn-lg" href="app.html">
-              Launch the live coach
-              <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+            <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=net.shapecoach.app" data-get-app>
+              <svg aria-hidden="true"><use href="#i-download"/></svg>
+              <span data-label>Get it on Google Play</span>
             </a>
             <span class="store-row">
-              <span class="store-badge"><small>Coming soon</small> App Store</span>
-              <span class="store-badge"><small>Coming soon</small> Google Play</span>
+              <span class="store-badge"><small>Free download</small> Android 6.0+</span>
             </span>
           </div>
         </div>
@@ -352,11 +361,11 @@
     <div class="container">
       <div class="footer-grid">
         <a class="brand" href="#top">
-          <img class="brand-mark" src="assets/img/favicon.svg" alt="" width="32" height="32">
-          <span class="brand-name">Shape<span>Coach</span></span>
+          <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="32" height="32">
+          <span class="brand-name">Shape<span>AI</span></span>
         </a>
         <ul class="footer-links">
-          <li><a href="app.html">Live coach</a></li>
+          <li><a href="https://play.google.com/store/apps/details?id=net.shapecoach.app" data-get-app><span data-label>Get the app</span></a></li>
           <li><a href="#how">How it works</a></li>
           <li><a href="#privacy">Privacy</a></li>
           <li><a href="#my-diet">My Diet</a></li>
@@ -366,7 +375,7 @@
         </ul>
       </div>
       <p class="footer-note">
-        © <span id="year">2026</span> ShapeCoach. Form feedback is for general fitness guidance only and is not medical advice.
+        © <span id="year">2026</span> ShapeAI. Form feedback is for general fitness guidance only and is not medical advice.
         Pose estimation powered by on-device BlazePose models (Google MediaPipe).
       </p>
     </div>

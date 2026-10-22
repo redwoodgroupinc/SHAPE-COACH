@@ -1,19 +1,22 @@
-# ShapeCoach
+# ShapeAI
 
-A personal trainer in your phone camera. Prop the phone up, press **Start coaching** and move.
+An AI personal trainer app for Android. Prop the phone up, press **Start coaching** and move.
 There is no exercise to pick: the coach recognises what you're doing from your first rep, counts
 reps, spots bad form ("knees caving in", "back rounding") and talks you through it mid-set in a
 female voice. Pose estimation runs **on-device**, so video never leaves the phone.
 
-This repository is the website, its API function and the Android app:
+This repository is the Android app, the website that hosts its screens, and the API function.
+The public website only describes the app and links to Google Play; the coach itself runs only
+inside the app.
 
 | Part | What it is |
 | --- | --- |
-| `index.html` | Marketing landing page. The animated phone in the hero is a procedural athlete switching between squats, presses and curls, recognised live by the real coaching engine. It isn't a video. |
-| `app.html` | The working coach. One Start button, then automatic exercise recognition. Camera, video-file and demo modes, live HUD, her voice cues, per-set summaries and history. |
-| `privacy.html`, `terms.html` | Privacy policy and terms, including the ShapeCoach Premium subscription terms. |
+| `index.html` | Information page about the app, with Google Play links. It does not provide the coach. The animated phone in the hero is a procedural athlete switching between squats, presses and curls, recognised live by the real coaching engine. It isn't a video. |
+| `app.html` | The coach, shown inside the Android app only: `assets/js/app-gate.js` sends anyone who opens it in a normal browser to `index.html`. One Start button, then automatic exercise recognition. Camera, video-file and demo modes, live HUD, her voice cues, per-set summaries and history. |
+| `privacy.html`, `terms.html` | Privacy policy and terms, including the ShapeAI Premium subscription terms. |
 | `api/verify-purchase.js` | Vercel function that verifies and acknowledges Google Play purchases. |
 | `android/` | The Android app: a Trusted Web Activity around `app.html` with Google Play Billing. See [docs/PLAY_STORE.md](docs/PLAY_STORE.md). |
+| `brand/` | Logo files (the Kinetic S mark, lockups, app icon) and the six logo directions that were explored. |
 
 ## Run it locally
 
@@ -23,23 +26,21 @@ npm test           # engine unit tests (Node 20+)
 ```
 
 No build step and no runtime dependencies: it is plain HTML, CSS and ES modules. Camera access
-needs a secure context, so use `http://localhost` locally and HTTPS in production.
+needs a secure context, so use `http://localhost` locally and HTTPS in production. To open the
+coach in a desktop browser while developing, add the app's launch flag:
+`http://localhost:5173/app.html?source=android`.
 
 ## Compatible devices
 
-The app's start screen runs a live device check (`assets/js/compat.js`) that feature-detects
-the visitor's browser without asking for permissions, and warns before they start if something
-will hold the coach back.
+The coach runs in the Android app, which shows `app.html` in Chrome. The app's start screen runs a
+live device check (`assets/js/compat.js`) that warns before the user starts if something will hold
+the coach back.
 
 | | Best | Works |
 | --- | --- | --- |
-| **iPhone / iPad** (iOS 17+) | iPhone 13 and newer; iPad Pro M1+, iPad Air 5+, iPad mini 6+, iPad (A16) | iPhone XS, XR, 11, 12, SE 2; iPad 8–10, Air 3/4, mini 5, 2018/2020 iPad Pros |
 | **Android** (10+, current Chrome) | Pixel 6–9, Galaxy S21–S24, Snapdragon 888 / 8 Gen 1–3, Tensor | Galaxy A54/A55/A56 and similar 2022+ mid-range; other phones with 4 GB+ RAM, slower |
-| **Laptops** (Windows 10/11, macOS 13+, ChromeOS, Linux) | Apple silicon; Core i5 11th gen / Ryzen 5 5000+; any dGPU; Chromebook Plus | Core i3/i5 8th gen / Ryzen 3 3000+, 8 GB RAM, graphics acceleration on |
 
-Minimum browsers: Safari 17, Chrome/Edge 108, Samsung Internet 21, Firefox 101 (svh units set the
-floor; MediaPipe's fast paths need Safari 17). Not supported: iPhone 8/X and older (stuck on
-iOS 16), Celeron/Pentium/Atom laptops, VMs without a GPU, in-app browsers.
+The app installs on Android 6.0 and later, and needs Chrome 108 or newer (svh units set the floor).
 
 **Known engine bug.** MediaPipe's web GPU path stalls on Snapdragon 8 Elite / 8 Elite Gen 5 / 8s Gen 3
 (Adreno 830/840/735: Galaxy S25, OnePlus 13, Xiaomi 15), as reported in
@@ -180,19 +181,21 @@ android/          Android app (Trusted Web Activity with Play Billing)
 .well-known/      Digital Asset Links linking the site to the Android app
 docs/             Google Play publishing guide
 store/            Play Store icon, feature graphic and screenshots
+brand/            logo files and the logo directions
 tests/            node:test suites
 scripts/          dev server, Android bundle signing
 ```
 
-## Android app and ShapeCoach Premium
+## Android app and ShapeAI Premium
 
 `android/` is a [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) Trusted Web Activity
 (package `net.shapecoach.app`) that opens `app.html?source=android` in Chrome, so the camera,
 pose model and voice behave exactly as on the web. Inside the app, the live coach and video
-analysis need **ShapeCoach Premium** (`shapecoach_premium`, US$14.99 a month), sold through Google
+analysis need **ShapeAI Premium** (`shapecoach_premium`, US$14.99 a month), sold through Google
 Play Billing via the Digital Goods and Payment Request APIs (`assets/js/app/billing.js`). Each
 purchase is acknowledged by `api/verify-purchase.js`; Play refunds unacknowledged subscriptions
-after three days. The demo stays free, and the website in a normal browser is not gated.
+after three days. The app opens on the Premium offer for anyone not subscribed; the in-app demo
+stays free. The website in a normal browser only describes the app.
 
 The *Android app* workflow builds the unsigned release bundle and publishes it to the
 `android-build` branch; it is signed with the upload key outside this repository

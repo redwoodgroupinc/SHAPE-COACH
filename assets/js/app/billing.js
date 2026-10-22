@@ -1,4 +1,4 @@
-// ShapeCoach Premium: a Google Play subscription sold inside the ShapeCoach Android app.
+// ShapeAI Premium: a Google Play subscription sold inside the ShapeAI Android app.
 //
 // The Android app is a Trusted Web Activity: it opens this website in Chrome and lets the
 // page reach Google Play Billing through the Digital Goods API (prices and owned purchases)
@@ -17,7 +17,7 @@ export const VERIFY_URL = '/api/verify-purchase';
 // pages reached by links (for example the landing page and back) still know.
 const APP_FLAG = 'shapecoach.androidApp';
 
-/** True when this page is running inside the ShapeCoach Android app. */
+/** True when this page is running inside the ShapeAI Android app. */
 export function inAndroidApp(win = globalThis.window) {
   try {
     const fromLaunch = new URLSearchParams(win.location.search).get('source') === 'android';
@@ -58,7 +58,7 @@ async function connect(win) {
 }
 
 /**
- * What Google Play says about ShapeCoach Premium on this device.
+ * What Google Play says about ShapeAI Premium on this device.
  * @returns {Promise<{billing: boolean, active: boolean, price: string, purchases: Array}>}
  * `billing` is false when Google Play Billing can't be reached (e.g. outside the app).
  */
@@ -100,7 +100,7 @@ export async function verifyPurchase(purchaseToken, { fetchImpl = globalThis.fet
 }
 
 /**
- * Open Google Play's purchase sheet for ShapeCoach Premium.
+ * Open Google Play's purchase sheet for ShapeAI Premium.
  * @returns {Promise<{purchased: boolean, cancelled?: boolean, verified?: boolean}>}
  */
 export async function subscribe(win = globalThis.window, { fetchImpl = globalThis.fetch } = {}) {
@@ -108,7 +108,7 @@ export async function subscribe(win = globalThis.window, { fetchImpl = globalThi
   const request = new win.PaymentRequest(
     [{ supportedMethods: PLAY_BILLING, data: { sku: PREMIUM_ID } }],
     // Play shows and charges its own price; Payment Request just needs a total.
-    { total: { label: 'ShapeCoach Premium', amount: { currency: 'USD', value: '0' } } },
+    { total: { label: 'ShapeAI Premium', amount: { currency: 'USD', value: '0' } } },
   );
   let response;
   try {

@@ -1152,7 +1152,7 @@ function bindSettings() {
 }
 
 // ---------------------------------------------------------------------------
-// ShapeCoach Premium (sold through Google Play inside the Android app; see billing.js)
+// ShapeAI Premium (sold through Google Play inside the Android app; see billing.js)
 
 const premium = {
   required: inAndroidApp(window),
@@ -1195,7 +1195,7 @@ function renderPremium() {
   if (!premium.required) return;
   row.classList.toggle('is-active', premium.active);
   $('sub-status').textContent = premium.active
-    ? 'Active. Thanks for training with ShapeCoach.'
+    ? 'Active. Thanks for training with ShapeAI.'
     : `Not subscribed · ${premium.price}`;
   $('sub-manage').href = MANAGE_URL;
   $('sub-manage').hidden = !premium.active;
@@ -1223,7 +1223,7 @@ function openPaywall(afterPurchase = null) {
 
 function unlocked() {
   paywall.dialog.close('unlocked');
-  showCue('ShapeCoach Premium is active', 'good', performance.now(), 2200);
+  showCue('ShapeAI Premium is active', 'good', performance.now(), 2200);
   const next = premium.afterPurchase;
   premium.afterPurchase = null;
   if (next === 'camera') startCamera();
@@ -1234,7 +1234,7 @@ async function onSubscribe() {
   if (!premium.billing) {
     await refreshPremium();
     if (!premium.billing) {
-      showPaywallError("Google Play billing isn't available right now. Update the Google Play Store and Chrome, then reopen ShapeCoach.");
+      showPaywallError("Google Play billing isn't available right now. Update the Google Play Store and Chrome, then reopen ShapeAI.");
       return;
     }
   }
@@ -1259,8 +1259,8 @@ async function onRestore() {
   try {
     await refreshPremium();
     if (premium.active) unlocked();
-    else if (!premium.billing) showPaywallError("Google Play billing isn't available right now. Update the Google Play Store and Chrome, then reopen ShapeCoach.");
-    else showPaywallError('No ShapeCoach Premium subscription was found for the Google account on this phone.');
+    else if (!premium.billing) showPaywallError("Google Play billing isn't available right now. Update the Google Play Store and Chrome, then reopen ShapeAI.");
+    else showPaywallError('No ShapeAI Premium subscription was found for the Google account on this phone.');
   } finally {
     setPaywallBusy(false);
   }

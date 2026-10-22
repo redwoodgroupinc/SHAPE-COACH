@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Live Coach · ShapeCoach</title>
+  <title>ShapeAI</title>
   <meta name="description" content="Press start and move. Your AI coach recognises the exercise on her own, counts reps, checks your form and talks you through it. Pose estimation runs on your device, so video never leaves it.">
   <meta name="theme-color" content="#07080a">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
+  <script src="assets/js/app-gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
@@ -37,10 +37,10 @@
   </svg>
 
   <header class="app-bar">
-    <a class="brand" href="index.html" aria-label="ShapeCoach home">
-      <img class="brand-mark" src="assets/img/favicon.svg" alt="" width="32" height="32">
-      <span class="brand-name">Shape<span>Coach</span></span>
-    </a>
+    <span class="brand" aria-label="ShapeAI">
+      <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="32" height="32">
+      <span class="brand-name">Shape<span>AI</span></span>
+    </span>
     <div class="app-bar-actions">
       <button class="btn btn-ghost btn-icon" id="voice-toggle" type="button" aria-pressed="true" aria-label="Voice cues on">
         <svg aria-hidden="true"><use href="#i-voice"/></svg>
@@ -211,7 +211,7 @@
       <h2 id="settings-title">Settings</h2>
       <div class="settings">
         <div class="sub-row" id="sub-row" hidden>
-          <span><strong>ShapeCoach Premium</strong><small id="sub-status">Checking your subscription…</small></span>
+          <span><strong>ShapeAI Premium</strong><small id="sub-status">Checking your subscription…</small></span>
           <a class="btn btn-sm" id="sub-manage" href="#" target="_blank" rel="noopener">Manage</a>
           <button class="btn btn-sm btn-primary" id="sub-subscribe" type="button" hidden>Subscribe</button>
         </div>
@@ -242,7 +242,7 @@
   <dialog class="dialog" id="paywall-dialog" aria-labelledby="paywall-title">
     <form method="dialog" class="dialog-body paywall">
       <button class="btn btn-ghost btn-icon dialog-close" type="submit" value="close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
-      <span class="eyebrow">ShapeCoach Premium</span>
+      <span class="eyebrow">ShapeAI Premium</span>
       <h2 id="paywall-title">Train with your AI coach</h2>
       <ul class="paywall-list">
         <li><svg aria-hidden="true"><use href="#i-check"/></svg> Live coaching with your camera, processed on your phone</li>

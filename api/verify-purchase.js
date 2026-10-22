@@ -1,4 +1,4 @@
-// Vercel serverless function: verify a ShapeCoach Premium purchase with Google Play and
+// Vercel serverless function: verify a ShapeAI Premium purchase with Google Play and
 // acknowledge it. Google Play refunds subscriptions that are not acknowledged within three
 // days, and a Trusted Web Activity can only acknowledge them through this server-side API.
 //
