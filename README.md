@@ -16,7 +16,7 @@ inside the app.
 | `privacy.html`, `terms.html` | Privacy policy and terms, including the ShapeAI Premium subscription terms. |
 | `api/verify-purchase.js` | Vercel function that verifies and acknowledges Google Play purchases. |
 | `android/` | The Android app: a Trusted Web Activity around `app.html` with Google Play Billing. See [docs/PLAY_STORE.md](docs/PLAY_STORE.md). |
-| `brand/` | Logo files (the Kinetic S mark, lockups, app icon) and the six logo directions that were explored. |
+| `brand/` | Logo files (the Rep Ring mark, lockups, app icon) and the six logo directions that were explored. |
 
 ## Run it locally
 

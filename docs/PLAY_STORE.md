@@ -22,9 +22,9 @@ app and links to Google Play: opening the coach page in a normal browser redirec
 
 ## Files
 
-- **`shapeai-1.1.0.aab`**: the signed release bundle to upload (version code 2). It replaces the
-  earlier `shapecoach-1.0.0.aab`: if you already uploaded that one, upload this as a new release;
-  if not, upload this one as your first. It is built by the
+- **`shapeai-1.1.1.aab`**: the signed release bundle to upload (version code 3). It replaces the
+  earlier `shapecoach-1.0.0.aab` and `shapeai-1.1.0.aab`: if you already uploaded one of those,
+  upload this as a new release; if not, upload this one as your first. It is built by the
   *Android app* GitHub workflow (unsigned, on the `android-build` branch) and then signed with the
   upload key.
 - **`shapecoach-upload.jks`** and its password: the **upload key**. Keep both private and backed
@@ -78,7 +78,7 @@ endpoint answers `503 not_configured` and purchases are **not** acknowledged.
 
 1. Testing → **Internal testing** (for yourself first) or **Closed testing** → Create release.
 2. When asked about app signing, keep **Google-generated key** (Play App Signing).
-3. Upload `shapeai-1.1.0.aab`, add release notes, save and roll out to the test track.
+3. Upload `shapeai-1.1.1.aab`, add release notes, save and roll out to the test track.
 
 ## 6. Add Google's signing key to the website (required)
 
@@ -157,7 +157,7 @@ installed app gets them immediately. Rebuild the Android bundle only to change t
 1. Increase `versionCode` (and `versionName`) in `android/app/build.gradle` and
    `android/twa-manifest.json`.
 2. Push; the *Android app* workflow publishes the unsigned bundle to the `android-build` branch.
-3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapeai-1.1.1.aab`.
+3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapeai-1.1.2.aab`.
 4. Upload it as a new release.
 
 ### Moving to your own domain
