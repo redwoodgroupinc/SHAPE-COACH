@@ -53,6 +53,15 @@ const state = () => evaluate(`({
   exercise: document.getElementById('hud-exercise')?.textContent.trim() ?? null,
   reps: document.getElementById('rep-count')?.textContent.trim() ?? null,
   status: document.getElementById('status-text')?.textContent.trim() ?? null,
+  // How much of the skeleton overlay is drawn (screenshots on the emulator can miss GPU layers).
+  overlayPixelsDrawn: (() => {
+    const c = document.getElementById('overlay');
+    if (!c?.width) return 0;
+    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+    let n = 0;
+    for (let i = 3; i < d.length; i += 4) if (d[i] > 0) n += 1;
+    return n;
+  })(),
   digitalGoodsApi: typeof window.getDigitalGoodsService,
   paymentRequestApi: typeof window.PaymentRequest,
   userAgent: navigator.userAgent,
@@ -80,7 +89,7 @@ await evaluate(`document.querySelector('.paywall-demo')?.click(), true`);
 await sleep(30000);
 const inDemo = await state();
 screenshot('2-demo');
-console.log(`DEMO RUNNING: ${inDemo.mode === 'demo' && inDemo.running ? 'yes' : 'no'} (exercise "${inDemo.exercise}", reps ${inDemo.reps})`);
+console.log(`DEMO RUNNING: ${inDemo.mode === 'demo' && inDemo.running ? 'yes' : 'no'} (exercise "${inDemo.exercise}", reps ${inDemo.reps}, skeleton pixels drawn ${inDemo.overlayPixelsDrawn})`);
 
 console.log(`PAGE ERRORS: ${errors.length ? errors.length : 'none'}`);
 writeFileSync(`${out}/app-state.json`, `${JSON.stringify({ onLaunch, digitalGoods, inDemo, errors }, null, 2)}\n`);
