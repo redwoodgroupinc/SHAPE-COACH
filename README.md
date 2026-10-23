@@ -15,6 +15,7 @@ inside the app.
 | `app.html` | The coach, shown inside the Android app only: `assets/js/app-gate.js` sends anyone who opens it in a normal browser to `index.html`. One Start button, then automatic exercise recognition. Camera, video-file and demo modes, live HUD, her voice cues, per-set summaries and history. |
 | `privacy.html`, `terms.html` | Privacy policy and terms, including the ShapeCoach Premium subscription terms. |
 | `api/verify-purchase.js` | Vercel function that verifies and acknowledges Google Play purchases. |
+| `api/assetlinks.js` | Serves `/.well-known/assetlinks.json` (see `vercel.json`): the upload key plus Google Play's app signing key from the `PLAY_APP_SIGNING_SHA256` environment variable. |
 | `android/` | The Android app: a Trusted Web Activity around `app.html` with Google Play Billing. See [docs/PLAY_STORE.md](docs/PLAY_STORE.md). |
 | `brand/` | Logo files (the Rep Ring mark, lockups, app icon) and the six logo directions that were explored. |
 
@@ -55,7 +56,8 @@ The tiers come from OS support lists and chip generations, not device testing. R
 
 The site is deployed on Vercel (project `shapecoach`, https://shapecoach-theta.vercel.app), which
 also runs `api/verify-purchase.js`. The pages themselves work on any static host, but the Android
-app's subscription needs that function and `.well-known/assetlinks.json` on the app's domain.
+app's subscription needs those functions (`/.well-known/assetlinks.json` is served by
+`api/assetlinks.js`) on the app's domain.
 
 ## How it works
 
@@ -176,14 +178,13 @@ assets/
                   Google Play billing (billing.js), controller
   js/compat.js    device check shown on the coach's start screen
   js/landing.js   landing page behaviour and live hero preview
-api/              Vercel function: verify and acknowledge Google Play purchases
+api/              Vercel functions: verify and acknowledge Google Play purchases, Digital Asset Links
 android/          Android app (Trusted Web Activity with Play Billing)
-.well-known/      Digital Asset Links linking the site to the Android app
 docs/             Google Play publishing guide
 store/            Play Store icon, feature graphic and screenshots
 brand/            logo files and the logo directions
 tests/            node:test suites
-scripts/          dev server, Android bundle signing
+scripts/          dev server, Android bundle signing, Android emulator smoke test
 ```
 
 ## Android app and ShapeCoach Premium
