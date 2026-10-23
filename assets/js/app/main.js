@@ -8,7 +8,7 @@ import { createPoseDetector } from './pose-detector.js';
 import { VoiceCoach, PRIORITY } from './voice.js';
 import { storage } from './storage.js';
 import {
-  inAndroidApp, premiumStatus, subscribe, acknowledgeOwned, MANAGE_URL, LIST_PRICE,
+  inAndroidApp, premiumStatus, subscribe, acknowledgeOwned, manageUrl, describePlans, DEFAULT_PLAN,
 } from './billing.js';
 import { probeEnvironment, evaluate, renderCheck } from '../compat.js';
 
@@ -1157,14 +1157,16 @@ function bindSettings() {
 const premium = {
   required: inAndroidApp(window),
   active: false,
+  activePlan: null,
   billing: false,
-  price: LIST_PRICE,
+  plans: describePlans(),
+  selected: DEFAULT_PLAN,
   checking: null,
   afterPurchase: null,
 };
 const paywall = {
   dialog: $('paywall-dialog'),
-  price: $('paywall-price'),
+  plans: $('paywall-plans'),
   error: $('paywall-error'),
   subscribe: $('paywall-subscribe'),
   restore: $('paywall-restore'),
@@ -1188,16 +1190,38 @@ async function hasPremium() {
   return premium.active;
 }
 
+/** One selectable card per plan: name, saving, price and what it works out to per month. */
+function renderPlans() {
+  const cards = premium.plans.map((plan) => {
+    const card = document.createElement('label');
+    card.className = 'plan';
+    card.classList.toggle('is-selected', plan.id === premium.selected);
+    const input = Object.assign(document.createElement('input'), { type: 'radio', name: 'plan', value: plan.id, checked: plan.id === premium.selected });
+    const name = Object.assign(document.createElement('span'), { className: 'plan-name', textContent: plan.name });
+    if (plan.save) name.append(Object.assign(document.createElement('span'), { className: 'plan-badge', textContent: `Save ${plan.save}%` }));
+    const note = Object.assign(document.createElement('span'), {
+      className: 'plan-note',
+      textContent: plan.perMonth ? `${plan.perMonth} a month, billed ${plan.name.toLowerCase()}` : `Billed ${plan.name.toLowerCase()}`,
+    });
+    const price = Object.assign(document.createElement('span'), { className: 'plan-price' });
+    price.append(Object.assign(document.createElement('strong'), { textContent: plan.amount }), Object.assign(document.createElement('small'), { textContent: plan.period }));
+    card.append(input, name, price, note);
+    return card;
+  });
+  paywall.plans.replaceChildren(...cards);
+}
+
 function renderPremium() {
-  paywall.price.textContent = premium.price;
+  if (!premium.plans.some((plan) => plan.id === premium.selected)) premium.selected = premium.plans[0]?.id ?? DEFAULT_PLAN;
+  renderPlans();
   const row = $('sub-row');
   row.hidden = !premium.required;
   if (!premium.required) return;
   row.classList.toggle('is-active', premium.active);
   $('sub-status').textContent = premium.active
     ? 'Active. Thanks for training with ShapeCoach.'
-    : `Not subscribed · ${premium.price}`;
-  $('sub-manage').href = MANAGE_URL;
+    : `Not subscribed · ${premium.plans.map((plan) => `${plan.amount} ${plan.period}`).join(' or ')}`;
+  $('sub-manage').href = manageUrl(premium.activePlan);
   $('sub-manage').hidden = !premium.active;
   $('sub-subscribe').hidden = premium.active;
 }
@@ -1240,7 +1264,7 @@ async function onSubscribe() {
   }
   setPaywallBusy(true);
   try {
-    const result = await subscribe(window);
+    const result = await subscribe(window, { sku: premium.selected });
     if (result.cancelled) return;
     await refreshPremium();
     if (premium.active) unlocked();
@@ -1266,6 +1290,11 @@ async function onRestore() {
   }
 }
 
+paywall.plans.addEventListener('change', (event) => {
+  if (event.target.name !== 'plan') return;
+  premium.selected = event.target.value;
+  for (const card of paywall.plans.querySelectorAll('.plan')) card.classList.toggle('is-selected', card.contains(event.target));
+});
 paywall.subscribe.addEventListener('click', onSubscribe);
 paywall.restore.addEventListener('click', onRestore);
 paywall.dialog.addEventListener('close', () => {

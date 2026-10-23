@@ -47,7 +47,7 @@ const state = () => evaluate(`({
   url: location.href,
   title: document.title,
   paywallOpen: document.getElementById('paywall-dialog')?.open ?? null,
-  price: document.getElementById('paywall-price')?.textContent ?? null,
+  price: document.getElementById('paywall-plans')?.innerText.replace(/\s+/g, ' ').trim() ?? null,
   mode: document.getElementById('stage')?.dataset.mode ?? null,
   running: document.getElementById('stage')?.classList.contains('is-running') ?? null,
   exercise: document.getElementById('hud-exercise')?.textContent.trim() ?? null,
@@ -81,7 +81,7 @@ console.log(`PLAY BILLING APIS IN THE PAGE: Digital Goods ${onLaunch.digitalGood
 // emulator has no Play Store, so a working setup ends in a Play Billing error; a missing or
 // disabled DelegationService fails before reaching it.
 const digitalGoods = await evaluate(`window.getDigitalGoodsService('https://play.google.com/billing')
-  .then((s) => s.getDetails(['shapecoach_premium']))
+  .then((s) => s.getDetails(['shapecoach_premium', 'shapecoach_premium_yearly']))
   .then((d) => 'details ' + JSON.stringify(d), (e) => 'error ' + e.name + ': ' + e.message)`);
 console.log(`DIGITAL GOODS API: ${digitalGoods}`);
 

@@ -9,7 +9,8 @@
 import { createSign } from 'node:crypto';
 
 export const PACKAGE_NAME = 'net.shapecoach.app';
-export const PRODUCT_ID = 'shapecoach_premium';
+// ShapeCoach Premium plans: monthly and yearly, each its own Play subscription.
+export const PRODUCT_IDS = ['shapecoach_premium', 'shapecoach_premium_yearly'];
 const SCOPE = 'https://www.googleapis.com/auth/androidpublisher';
 const DEFAULT_TOKEN_URI = 'https://oauth2.googleapis.com/token';
 const API = `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${PACKAGE_NAME}/purchases`;
@@ -49,7 +50,7 @@ async function accessToken(credentials, fetchImpl, nowMs) {
 
 /**
  * Look the purchase up with Google Play and acknowledge it if it is still pending.
- * @returns {Promise<{ok: boolean, status: number, active?: boolean, state?: string, expiresAt?: string, error?: string}>}
+ * @returns {Promise<{ok: boolean, status: number, productId?: string, active?: boolean, state?: string, expiresAt?: string, error?: string}>}
  */
 export async function verifyAndAcknowledge(purchaseToken, { credentials, fetchImpl = fetch, nowMs = Date.now() }) {
   const token = await accessToken(credentials, fetchImpl, nowMs);
@@ -62,11 +63,11 @@ export async function verifyAndAcknowledge(purchaseToken, { credentials, fetchIm
   }
   if (!lookup.ok) return { ok: false, status: 502, error: `play_lookup_failed_${lookup.status}` };
   const subscription = await lookup.json();
-  const item = (subscription.lineItems ?? []).find((line) => line.productId === PRODUCT_ID);
+  const item = (subscription.lineItems ?? []).find((line) => PRODUCT_IDS.includes(line.productId));
   if (!item) return { ok: false, status: 400, error: 'wrong_product' };
 
   if (subscription.acknowledgementState === 'ACKNOWLEDGEMENT_STATE_PENDING') {
-    const ack = await fetchImpl(`${API}/subscriptions/${PRODUCT_ID}/tokens/${encoded}:acknowledge`, {
+    const ack = await fetchImpl(`${API}/subscriptions/${item.productId}/tokens/${encoded}:acknowledge`, {
       method: 'POST',
       headers: { ...auth, 'content-type': 'application/json' },
       body: '{}',
@@ -77,6 +78,7 @@ export async function verifyAndAcknowledge(purchaseToken, { credentials, fetchIm
   return {
     ok: true,
     status: 200,
+    productId: item.productId,
     active: ACTIVE_STATES.has(subscription.subscriptionState),
     state: subscription.subscriptionState,
     expiresAt: item.expiryTime,
@@ -101,7 +103,7 @@ export default async function handler(req, res, { env = process.env, fetchImpl =
   const body = typeof req.body === 'string' ? safeJson(req.body) : (req.body ?? {});
   const { purchaseToken, productId, packageName } = body;
   if (typeof purchaseToken !== 'string' || !TOKEN_PATTERN.test(purchaseToken)
-    || (productId !== undefined && productId !== PRODUCT_ID)
+    || (productId !== undefined && !PRODUCT_IDS.includes(productId))
     || (packageName !== undefined && packageName !== PACKAGE_NAME)) {
     return res.status(400).json({ ok: false, error: 'bad_request' });
   }

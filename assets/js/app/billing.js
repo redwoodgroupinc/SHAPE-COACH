@@ -1,17 +1,31 @@
-// ShapeCoach Premium: a Google Play subscription sold inside the ShapeCoach Android app.
+// ShapeCoach Premium: Google Play subscriptions sold inside the ShapeCoach Android app.
 //
 // The Android app is a Trusted Web Activity: it opens this website in Chrome and lets the
 // page reach Google Play Billing through the Digital Goods API (prices and owned purchases)
 // and the Payment Request API (buying). Play refunds subscriptions that are not
 // acknowledged within three days, and only the Play Developer API can acknowledge them, so
 // each new purchase is sent to /api/verify-purchase (see api/verify-purchase.js).
+//
+// Each plan is its own Play subscription with a single base plan, because the Digital Goods
+// API only exposes the first eligible base plan of a subscription.
 
 export const PLAY_BILLING = 'https://play.google.com/billing';
-export const PREMIUM_ID = 'shapecoach_premium';
 export const ANDROID_PACKAGE = 'net.shapecoach.app';
-export const LIST_PRICE = 'US$14.99 a month';
-export const MANAGE_URL = `https://play.google.com/store/account/subscriptions?sku=${PREMIUM_ID}&package=${ANDROID_PACKAGE}`;
 export const VERIFY_URL = '/api/verify-purchase';
+
+/** ShapeCoach Premium plans, best value first. listPrice is shown until Google Play answers. */
+export const PLANS = [
+  { id: 'shapecoach_premium_yearly', period: 'P1Y', listPrice: { currency: 'USD', value: '59.99' } },
+  { id: 'shapecoach_premium', period: 'P1M', listPrice: { currency: 'USD', value: '9.99' } },
+];
+export const PLAN_IDS = PLANS.map((plan) => plan.id);
+export const DEFAULT_PLAN = PLANS[0].id;
+
+/** Google Play's subscription centre, opened on the given plan when there is one. */
+export function manageUrl(planId) {
+  const sku = PLAN_IDS.includes(planId) ? `sku=${planId}&` : '';
+  return `https://play.google.com/store/account/subscriptions?${sku}package=${ANDROID_PACKAGE}`;
+}
 
 // The Android app opens app.html?source=android. Remember that for the rest of the visit so
 // pages reached by links (for example the landing page and back) still know.
@@ -29,7 +43,7 @@ export function inAndroidApp(win = globalThis.window) {
   }
 }
 
-/** "US$14.99" style price from a Digital Goods API price ({ currency, value }). */
+/** "US$9.99" style price from a Digital Goods API price ({ currency, value }). */
 export function formatPrice(price, locale) {
   if (!price?.currency || price.value === undefined) return null;
   try {
@@ -48,6 +62,41 @@ export function periodLabel(iso) {
   return count === 1 ? `a ${unit}` : `every ${count} ${unit}s`;
 }
 
+/** Length of a P<n>M or P<n>Y period in months; null for other periods. */
+function months(iso) {
+  const match = /^P(\d+)([MY])$/.exec(String(iso ?? ''));
+  return match ? Number(match[1]) * (match[2] === 'Y' ? 12 : 1) : null;
+}
+
+/**
+ * The plans as the paywall shows them, with Google Play's prices where it gave them.
+ * @returns {Array<{id: string, name: string, amount: string, period: string, perMonth: string|null, save: number|null}>}
+ */
+export function describePlans(details = [], locale) {
+  const plans = PLANS.map((plan) => {
+    const item = details.find((d) => d.itemId === plan.id);
+    const fromPlay = item?.price?.currency && item.price.value !== undefined;
+    return { id: plan.id, price: fromPlay ? item.price : plan.listPrice, period: (fromPlay && item.subscriptionPeriod) || plan.period };
+  });
+  const monthly = plans.find((plan) => months(plan.period) === 1);
+  return plans.map(({ id, price, period }) => {
+    const length = months(period);
+    const perMonth = length > 1 ? formatPrice({ currency: price.currency, value: Number(price.value) / length }, locale) : null;
+    // Saving against paying monthly for the same time, only when both prices share a currency.
+    const save = length > 1 && monthly && monthly.price.currency === price.currency
+      ? Math.round((1 - Number(price.value) / (Number(monthly.price.value) * length)) * 100)
+      : null;
+    return {
+      id,
+      name: length === 12 ? 'Yearly' : length === 1 ? 'Monthly' : `Every ${length} months`,
+      amount: formatPrice(price, locale),
+      period: periodLabel(period) ?? '',
+      perMonth,
+      save: save > 0 ? save : null,
+    };
+  });
+}
+
 async function connect(win) {
   if (typeof win.getDigitalGoodsService !== 'function') return null;
   try {
@@ -59,24 +108,22 @@ async function connect(win) {
 
 /**
  * What Google Play says about ShapeCoach Premium on this device.
- * @returns {Promise<{billing: boolean, active: boolean, price: string, purchases: Array}>}
+ * @returns {Promise<{billing: boolean, active: boolean, activePlan: string|null, plans: Array, purchases: Array}>}
  * `billing` is false when Google Play Billing can't be reached (e.g. outside the app).
  */
 export async function premiumStatus(win = globalThis.window) {
   const service = await connect(win);
-  if (!service) return { billing: false, active: false, price: LIST_PRICE, purchases: [] };
+  if (!service) return { billing: false, active: false, activePlan: null, plans: describePlans(), purchases: [] };
   const [purchases, details] = await Promise.all([
     service.listPurchases().catch(() => []),
-    service.getDetails([PREMIUM_ID]).catch(() => []),
+    service.getDetails(PLAN_IDS).catch(() => []),
   ]);
-  const owned = purchases.filter((p) => p.itemId === PREMIUM_ID);
-  const item = details.find((d) => d.itemId === PREMIUM_ID);
-  const amount = formatPrice(item?.price);
-  const period = periodLabel(item?.subscriptionPeriod);
+  const owned = purchases.filter((p) => PLAN_IDS.includes(p.itemId));
   return {
     billing: true,
     active: owned.length > 0,
-    price: amount ? `${amount} ${period ?? 'a month'}` : LIST_PRICE,
+    activePlan: owned[0]?.itemId ?? null,
+    plans: describePlans(details),
     purchases: owned,
   };
 }
@@ -85,12 +132,12 @@ export async function premiumStatus(win = globalThis.window) {
  * Ask our server to verify a purchase with Google Play and acknowledge it.
  * Resolves to the server's answer, or { ok: false } if it couldn't be reached.
  */
-export async function verifyPurchase(purchaseToken, { fetchImpl = globalThis.fetch } = {}) {
+export async function verifyPurchase(purchaseToken, { productId = DEFAULT_PLAN, fetchImpl = globalThis.fetch } = {}) {
   try {
     const response = await fetchImpl(VERIFY_URL, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ purchaseToken, productId: PREMIUM_ID, packageName: ANDROID_PACKAGE }),
+      body: JSON.stringify({ purchaseToken, productId, packageName: ANDROID_PACKAGE }),
     });
     const body = await response.json().catch(() => ({}));
     return { ok: response.ok && body.ok === true, ...body };
@@ -100,13 +147,14 @@ export async function verifyPurchase(purchaseToken, { fetchImpl = globalThis.fet
 }
 
 /**
- * Open Google Play's purchase sheet for ShapeCoach Premium.
+ * Open Google Play's purchase sheet for one ShapeCoach Premium plan.
  * @returns {Promise<{purchased: boolean, cancelled?: boolean, verified?: boolean}>}
  */
-export async function subscribe(win = globalThis.window, { fetchImpl = globalThis.fetch } = {}) {
+export async function subscribe(win = globalThis.window, { sku = DEFAULT_PLAN, fetchImpl = globalThis.fetch } = {}) {
   if (typeof win.PaymentRequest !== 'function') throw new Error('Google Play Billing is not available');
+  if (!PLAN_IDS.includes(sku)) throw new Error(`Unknown plan ${sku}`);
   const request = new win.PaymentRequest(
-    [{ supportedMethods: PLAY_BILLING, data: { sku: PREMIUM_ID } }],
+    [{ supportedMethods: PLAY_BILLING, data: { sku } }],
     // Play shows and charges its own price; Payment Request just needs a total.
     { total: { label: 'ShapeCoach Premium', amount: { currency: 'USD', value: '0' } } },
   );
@@ -118,7 +166,7 @@ export async function subscribe(win = globalThis.window, { fetchImpl = globalThi
     throw error;
   }
   const token = response.details?.purchaseToken;
-  const result = token ? await verifyPurchase(token, { fetchImpl }) : { ok: false };
+  const result = token ? await verifyPurchase(token, { productId: sku, fetchImpl }) : { ok: false };
   // Play has charged the user either way; the purchase shows up in listPurchases().
   await response.complete(token ? 'success' : 'fail');
   return { purchased: Boolean(token), verified: result.ok };
@@ -132,7 +180,7 @@ export async function acknowledgeOwned(purchases, { fetchImpl = globalThis.fetch
   for (const purchase of purchases) {
     const key = `shapecoach.ack.${purchase.purchaseToken}`;
     if (storage?.get(key, false)) continue;
-    const result = await verifyPurchase(purchase.purchaseToken, { fetchImpl });
+    const result = await verifyPurchase(purchase.purchaseToken, { productId: purchase.itemId, fetchImpl });
     if (result.ok) storage?.set(key, true);
   }
 }

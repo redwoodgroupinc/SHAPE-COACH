@@ -3,10 +3,14 @@ import assert from 'node:assert/strict';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 import {
-  inAndroidApp, formatPrice, periodLabel, premiumStatus, subscribe, verifyPurchase, acknowledgeOwned,
-  PREMIUM_ID, PLAY_BILLING, LIST_PRICE,
+  inAndroidApp, formatPrice, periodLabel, premiumStatus, subscribe, verifyPurchase, acknowledgeOwned, describePlans, manageUrl,
+  PLAY_BILLING, PLAN_IDS, DEFAULT_PLAN,
 } from '../assets/js/app/billing.js';
-import handler, { signedAssertion, verifyAndAcknowledge, PACKAGE_NAME, PRODUCT_ID } from '../api/verify-purchase.js';
+import handler, { signedAssertion, verifyAndAcknowledge, PACKAGE_NAME, PRODUCT_IDS } from '../api/verify-purchase.js';
+
+const MONTHLY = 'shapecoach_premium';
+const YEARLY = 'shapecoach_premium_yearly';
+const PRODUCT_ID = MONTHLY;
 
 function fakeWindow({ search = '', referrer = '', session = {}, service, PaymentRequest } = {}) {
   const store = { ...session };
@@ -46,28 +50,55 @@ test('prices and periods are shown the way Google Play reports them', () => {
   assert.equal(periodLabel(undefined), null);
 });
 
-test('premium status: no Play billing outside the app', async () => {
-  const status = await premiumStatus(fakeWindow());
-  assert.deepEqual(status, { billing: false, active: false, price: LIST_PRICE, purchases: [] });
+test('two plans: yearly (the default, best value) and monthly, at their list prices', () => {
+  assert.deepEqual(PLAN_IDS, [YEARLY, MONTHLY]);
+  assert.equal(DEFAULT_PLAN, YEARLY);
+  assert.deepEqual(PRODUCT_IDS.slice().sort(), PLAN_IDS.slice().sort(), 'the server accepts exactly the app\'s plans');
+  assert.deepEqual(describePlans([], 'en-US'), [
+    { id: YEARLY, name: 'Yearly', amount: '$59.99', period: 'a year', perMonth: '$5.00', save: 50 },
+    { id: MONTHLY, name: 'Monthly', amount: '$9.99', period: 'a month', perMonth: null, save: null },
+  ]);
 });
 
-test('premium status: active when Play lists the subscription, with Play\'s local price', async () => {
+test('plans use Google Play\'s local prices, and the saving follows them', () => {
+  const plans = describePlans([
+    { itemId: MONTHLY, price: { currency: 'EUR', value: '9.99' }, subscriptionPeriod: 'P1M' },
+    { itemId: YEARLY, price: { currency: 'EUR', value: '79.99' }, subscriptionPeriod: 'P1Y' },
+  ], 'en-US');
+  assert.equal(plans[0].amount, '€79.99');
+  assert.equal(plans[0].perMonth, '€6.67');
+  assert.equal(plans[0].save, 33);
+  assert.equal(plans[1].amount, '€9.99');
+});
+
+test('premium status: no Play billing outside the app', async () => {
+  const status = await premiumStatus(fakeWindow());
+  assert.deepEqual(status, { billing: false, active: false, activePlan: null, plans: describePlans(), purchases: [] });
+});
+
+test('premium status: active when Play lists either plan, with Play\'s local prices', async () => {
   const service = {
-    listPurchases: async () => [{ itemId: PREMIUM_ID, purchaseToken: 'tok-123456789' }, { itemId: 'other', purchaseToken: 'x' }],
+    listPurchases: async () => [{ itemId: YEARLY, purchaseToken: 'tok-123456789' }, { itemId: 'other', purchaseToken: 'x' }],
     getDetails: async (ids) => {
-      assert.deepEqual(ids, [PREMIUM_ID]);
-      return [{ itemId: PREMIUM_ID, price: { currency: 'USD', value: '14.99' }, subscriptionPeriod: 'P1M' }];
+      assert.deepEqual(ids, PLAN_IDS);
+      return [
+        { itemId: YEARLY, price: { currency: 'USD', value: '59.99' }, subscriptionPeriod: 'P1Y' },
+        { itemId: MONTHLY, price: { currency: 'USD', value: '9.99' }, subscriptionPeriod: 'P1M' },
+      ];
     },
   };
   const status = await premiumStatus(fakeWindow({ service }));
   assert.equal(status.billing, true);
   assert.equal(status.active, true);
-  assert.match(status.price, /14\.99 a month$/);
+  assert.equal(status.activePlan, YEARLY);
+  assert.match(status.plans[0].amount, /59\.99/);
   assert.equal(status.purchases.length, 1);
+  assert.equal(manageUrl(status.activePlan), `https://play.google.com/store/account/subscriptions?sku=${YEARLY}&package=net.shapecoach.app`);
 
   const none = await premiumStatus(fakeWindow({ service: { listPurchases: async () => [], getDetails: async () => [] } }));
   assert.equal(none.active, false);
-  assert.equal(none.price, LIST_PRICE);
+  assert.deepEqual(none.plans, describePlans());
+  assert.equal(manageUrl(null), 'https://play.google.com/store/account/subscriptions?package=net.shapecoach.app');
 });
 
 test('subscribing verifies the purchase with our server before completing the payment', async () => {
@@ -82,16 +113,17 @@ test('subscribing verifies the purchase with our server before completing the pa
     }
   }
   const fetchImpl = async (url, init) => {
-    calls.push(['verify', url, JSON.parse(init.body).purchaseToken]);
+    calls.push(['verify', url, JSON.parse(init.body).purchaseToken, JSON.parse(init.body).productId]);
     return jsonResponse(200, { ok: true, active: true });
   };
-  const result = await subscribe(fakeWindow({ PaymentRequest: FakePaymentRequest }), { fetchImpl });
+  const result = await subscribe(fakeWindow({ PaymentRequest: FakePaymentRequest }), { sku: MONTHLY, fetchImpl });
   assert.deepEqual(result, { purchased: true, verified: true });
   assert.deepEqual(calls, [
-    ['request', PLAY_BILLING, PREMIUM_ID, 'USD'],
-    ['verify', '/api/verify-purchase', 'purchase-token-123'],
+    ['request', PLAY_BILLING, MONTHLY, 'USD'],
+    ['verify', '/api/verify-purchase', 'purchase-token-123', MONTHLY],
     ['complete', 'success'],
   ]);
+  await assert.rejects(subscribe(fakeWindow({ PaymentRequest: FakePaymentRequest }), { sku: 'free_forever' }), /Unknown plan/);
 });
 
 test('closing the Play sheet is a cancel, not an error', async () => {
@@ -109,12 +141,12 @@ test('verification failures are reported, not thrown', async () => {
 test('owned purchases are acknowledged once, then remembered', async () => {
   const saved = new Map();
   const storage = { get: (k, d) => saved.get(k) ?? d, set: (k, v) => saved.set(k, v) };
-  let calls = 0;
-  const fetchImpl = async () => { calls += 1; return jsonResponse(200, { ok: true }); };
-  const purchases = [{ itemId: PREMIUM_ID, purchaseToken: 'abc' }];
+  const sent = [];
+  const fetchImpl = async (url, init) => { sent.push(JSON.parse(init.body).productId); return jsonResponse(200, { ok: true }); };
+  const purchases = [{ itemId: YEARLY, purchaseToken: 'abc' }];
   await acknowledgeOwned(purchases, { fetchImpl, storage });
   await acknowledgeOwned(purchases, { fetchImpl, storage });
-  assert.equal(calls, 1);
+  assert.deepEqual(sent, [YEARLY], 'acknowledged once, for its own plan');
 });
 
 // ---------------------------------------------------------------------------
@@ -160,12 +192,19 @@ function playApi({ state = 'SUBSCRIPTION_STATE_ACTIVE', ack = 'ACKNOWLEDGEMENT_S
 test('a new purchase is looked up and acknowledged with Google Play', async () => {
   const { calls, fetchImpl } = playApi();
   const result = await verifyAndAcknowledge(TOKEN, { credentials, fetchImpl });
-  assert.deepEqual(result, { ok: true, status: 200, active: true, state: 'SUBSCRIPTION_STATE_ACTIVE', expiresAt: '2026-11-15T00:00:00Z' });
+  assert.deepEqual(result, { ok: true, status: 200, productId: PRODUCT_ID, active: true, state: 'SUBSCRIPTION_STATE_ACTIVE', expiresAt: '2026-11-15T00:00:00Z' });
   assert.deepEqual(calls, [
     'POST /token',
     `GET /androidpublisher/v3/applications/${PACKAGE_NAME}/purchases/subscriptionsv2/tokens/${encodeURIComponent(TOKEN)}`,
     `POST /androidpublisher/v3/applications/${PACKAGE_NAME}/purchases/subscriptions/${PRODUCT_ID}/tokens/${encodeURIComponent(TOKEN)}:acknowledge`,
   ]);
+});
+
+test('a yearly purchase is acknowledged as the yearly product', async () => {
+  const { calls, fetchImpl } = playApi({ productId: YEARLY });
+  const result = await verifyAndAcknowledge(TOKEN, { credentials, fetchImpl });
+  assert.equal(result.productId, YEARLY);
+  assert.match(calls[2], new RegExp(`/subscriptions/${YEARLY}/tokens/`));
 });
 
 test('an already acknowledged purchase is not acknowledged again', async () => {

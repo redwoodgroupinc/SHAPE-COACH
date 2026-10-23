@@ -3,7 +3,8 @@
 ShapeCoach for Android is a **Trusted Web Activity**: a small Android app that opens
 `https://shapecoach-theta.vercel.app/app.html?source=android` full screen in Chrome. The camera,
 the on-device pose model and the coach's voice run inside it. The download is free; the app opens
-on **ShapeCoach Premium**, a US$14.99 monthly subscription sold through Google Play Billing, and
+on **ShapeCoach Premium**, sold through Google Play Billing as a US$9.99 monthly or US$59.99 yearly
+subscription, and
 offers a free demo. The website only describes the app and links to Google Play: opening the coach
 page in a normal browser redirects to it.
 
@@ -12,8 +13,8 @@ page in a normal browser redirects to it.
 | App name | ShapeCoach |
 | Package name | `net.shapecoach.app` (permanent once uploaded) |
 | Version | 1.1.3 (version code 5) |
-| Subscription product ID | `shapecoach_premium` |
-| Base plan | `monthly`, auto-renewing, 1 month, US$14.99 |
+| Monthly subscription | product ID `shapecoach_premium`, base plan `monthly`, 1 month, US$9.99 |
+| Yearly subscription | product ID `shapecoach_premium_yearly`, base plan `yearly`, 1 year, US$59.99 |
 | Website (app content) | https://shapecoach-theta.vercel.app |
 | Privacy policy | https://shapecoach-theta.vercel.app/privacy.html |
 | Terms | https://shapecoach-theta.vercel.app/terms.html |
@@ -37,7 +38,7 @@ Only you can do the steps below: they happen in your Google Play Console, Google
 accounts. Roughly, in order:
 
 1. Play Console account and app (an hour, plus identity verification).
-2. Upload to internal testing, create the subscription, connect a service account (an hour;
+2. Upload to internal testing, create the two subscriptions, connect a service account (an hour;
    Google can take up to a day to accept a new service account).
 3. Add Google's signing key to Vercel, test a purchase, fill in the app content and listing.
 4. **Closed test with at least 12 testers for 14 days in a row** (required for personal accounts
@@ -64,17 +65,30 @@ that a free app can't be changed to paid later.)
 3. Upload `shapecoach-1.1.3.aab`, add release notes ("First release"), save and roll out.
 4. Add yourself as a tester and install the app from the opt-in link on your phone.
 
-## 4. Create the subscription
+## 4. Create the two subscriptions
 
 Monetize with Play → Products → **Subscriptions** → Create subscription. (Play Console allows this
 only after a bundle with the billing permission is uploaded, which step 3 did.)
 
-1. Product ID **`shapecoach_premium`** (must match exactly), name *ShapeCoach Premium*.
-2. Add a base plan: ID **`monthly`**, auto-renewing, billing period **1 month**, price
-   **US$14.99**. Let Play set local prices for other countries, then **Activate** it.
-3. Optional: add a free-trial offer to the base plan. The app shows whatever Google Play offers.
+**Monthly**
 
-Use one base plan only: through the Digital Goods API the app sees just the first eligible plan.
+1. Product ID **`shapecoach_premium`** (must match exactly), name *ShapeCoach Premium (Monthly)*.
+2. Add a base plan: ID **`monthly`**, auto-renewing, billing period **1 month**, price
+   **US$9.99**. Let Play set local prices for other countries, then **Activate** it.
+
+**Yearly**
+
+1. Create a second subscription: product ID **`shapecoach_premium_yearly`** (must match exactly),
+   name *ShapeCoach Premium (Yearly)*.
+2. Add a base plan: ID **`yearly`**, auto-renewing, billing period **1 year**, price
+   **US$59.99**. Let Play set local prices, then **Activate** it.
+
+Each plan must be its own subscription with **one** base plan: through the Digital Goods API the
+app sees only the first eligible base plan of each subscription. The app shows both plans with
+Google Play's local prices, preselects Yearly and labels its saving against paying monthly
+("Save 50%" at the US prices). Optional free-trial offers are shown as Google Play offers them.
+If you already created `shapecoach_premium` at US$14.99, change its base plan price to US$9.99
+(new subscribers get the new price straight away).
 
 ## 5. Let the website acknowledge purchases (required)
 
@@ -121,7 +135,8 @@ data (or reinstall the app) after updating.
 2. Open the app: the ShapeCoach Premium screen appears straight away, with the price from Google
    Play. Subscribe and check that the camera coach starts. Settings in the app shows *ShapeCoach
    Premium: Active* and a **Manage** link.
-3. In Play Console → **Order management**, the test order should show as acknowledged.
+3. Try both plans with a license tester. In Play Console → **Order management**, each test order
+   should show as acknowledged.
 
 ## 8. App content (Policy and programs → App content)
 
@@ -132,7 +147,7 @@ data (or reinstall the app) after updating.
   subscribing, tap *Watch the free demo instead* at the bottom of that screen: the demo runs the
   full coaching experience (exercise recognition, rep counting, form cues and voice) on a
   recorded athlete. The live camera coach and video analysis need the ShapeCoach Premium
-  subscription (US$14.99/month) through Google Play Billing. No login is needed."
+  subscription (US$9.99 a month or US$59.99 a year) through Google Play Billing. No login is needed."
 - **Content rating**: complete the questionnaire (category: all other app types). Answer no to
   violence, sexuality, language, controlled substances, gambling, user interaction/sharing and
   location; yes to digital purchases.
@@ -172,9 +187,10 @@ data (or reinstall the app) after updating.
   > • Workout summaries with form score, clean reps and time per rep
   > • Private by design: pose tracking runs on your phone and video is never uploaded
   >
-  > ShapeCoach Premium unlocks the live camera coach and video analysis for US$14.99 a month
-  > (shown in your local currency before you subscribe). The subscription renews monthly until you
-  > cancel in Google Play. A demo is free.
+  > ShapeCoach Premium unlocks the live camera coach and video analysis for US$9.99 a month, or
+  > US$59.99 a year (half the monthly price). Prices are shown in your local currency before you
+  > subscribe. The subscription renews at the end of each month or year until you cancel in Google
+  > Play. A demo is free.
   >
   > ShapeCoach gives general fitness guidance and is not medical advice.
 
