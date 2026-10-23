@@ -11,7 +11,7 @@
   "navigationDividerColor": "#07080A",
   "navigationDividerColorDark": "#07080A",
   "backgroundColor": "#07080A",
-  "enableNotifications": false,
+  "enableNotifications": true,
   "startUrl": "/app.html?source=android",
   "iconUrl": "https://shapecoach-theta.vercel.app/assets/img/icon-512.png",
   "maskableIconUrl": "https://shapecoach-theta.vercel.app/assets/img/icon-maskable-512.png",
@@ -20,8 +20,8 @@
     "path": "./upload-keystore.jks",
     "alias": "upload"
   },
-  "appVersionName": "1.1.2",
-  "appVersionCode": 4,
+  "appVersionName": "1.1.3",
+  "appVersionCode": 5,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://shapecoach-theta.vercel.app/manifest.webmanifest",
@@ -43,5 +43,5 @@
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
   "displayOverride": [],
-  "appVersion": "1.1.2"
+  "appVersion": "1.1.3"
 }

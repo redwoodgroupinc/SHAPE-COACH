@@ -68,6 +68,13 @@ screenshot('1-launch');
 console.log(`PAGE: ${onLaunch.url}`);
 console.log(`PAYWALL ON LAUNCH: ${onLaunch.paywallOpen ? 'yes' : 'no'} (${onLaunch.price})`);
 console.log(`PLAY BILLING APIS IN THE PAGE: Digital Goods ${onLaunch.digitalGoodsApi}, Payment Request ${onLaunch.paymentRequestApi}`);
+// The Digital Goods API goes through the app's DelegationService to Google Play Billing. The
+// emulator has no Play Store, so a working setup ends in a Play Billing error; a missing or
+// disabled DelegationService fails before reaching it.
+const digitalGoods = await evaluate(`window.getDigitalGoodsService('https://play.google.com/billing')
+  .then((s) => s.getDetails(['shapecoach_premium']))
+  .then((d) => 'details ' + JSON.stringify(d), (e) => 'error ' + e.name + ': ' + e.message)`);
+console.log(`DIGITAL GOODS API: ${digitalGoods}`);
 
 await evaluate(`document.querySelector('.paywall-demo')?.click(), true`);
 await sleep(30000);
@@ -76,5 +83,5 @@ screenshot('2-demo');
 console.log(`DEMO RUNNING: ${inDemo.mode === 'demo' && inDemo.running ? 'yes' : 'no'} (exercise "${inDemo.exercise}", reps ${inDemo.reps})`);
 
 console.log(`PAGE ERRORS: ${errors.length ? errors.length : 'none'}`);
-writeFileSync(`${out}/app-state.json`, `${JSON.stringify({ onLaunch, inDemo, errors }, null, 2)}\n`);
+writeFileSync(`${out}/app-state.json`, `${JSON.stringify({ onLaunch, digitalGoods, inDemo, errors }, null, 2)}\n`);
 ws.close();

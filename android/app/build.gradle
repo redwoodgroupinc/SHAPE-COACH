@@ -33,7 +33,9 @@ def twaManifest = [
     navigationDividerColor: '#07080A', // The navbar divider color.
     navigationDividerColorDark: '#07080A', // The dark navbar divider color.
     backgroundColor: '#07080A', // The color used for the splash screen background.
-    enableNotifications: false, // Set to true to enable notification delegation.
+    // Must stay true: it enables the DelegationService, which Chrome also uses for Google Play
+    // Billing (the Digital Goods API that lists the subscription and its price).
+    enableNotifications: true, // Set to true to enable notification delegation.
     // Every shortcut must include the following fields:
     // - name: String that will show up in the shortcut.
     // - short_name: Shorter string used if |name| is too long.
@@ -57,8 +59,8 @@ android {
         applicationId "net.shapecoach.app"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 4
-        versionName "1.1.2"
+        versionCode 5
+        versionName "1.1.3"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name

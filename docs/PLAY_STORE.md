@@ -11,7 +11,7 @@ page in a normal browser redirects to it.
 | --- | --- |
 | App name | ShapeCoach |
 | Package name | `net.shapecoach.app` (permanent once uploaded) |
-| Version | 1.1.2 (version code 4) |
+| Version | 1.1.3 (version code 5) |
 | Subscription product ID | `shapecoach_premium` |
 | Base plan | `monthly`, auto-renewing, 1 month, US$14.99 |
 | Website (app content) | https://shapecoach-theta.vercel.app |
@@ -23,9 +23,9 @@ page in a normal browser redirects to it.
 
 ## What you need
 
-- **`shapecoach-1.1.2.aab`**: the signed release bundle to upload. It replaces every earlier
-  bundle (1.0.0, 1.1.0 and 1.1.1); if you already uploaded one of those, upload this as a new
-  release. It is built by the *Android app* GitHub workflow (unsigned, on the `android-build`
+- **`shapecoach-1.1.3.aab`**: the signed release bundle to upload. It replaces every earlier
+  bundle (1.0.0 to 1.1.2, which can't use Google Play Billing); if you already uploaded one of
+  those, upload this as a new release. It is built by the *Android app* GitHub workflow (unsigned, on the `android-build`
   branch) and signed with the upload key.
 - **`shapecoach-upload.jks`** and its password: the **upload key**. Keep both private and backed
   up (for example in a password manager). Never commit them. You need them for every update; if
@@ -61,7 +61,7 @@ that a free app can't be changed to paid later.)
 1. Test and release → Testing → **Internal testing** (just you, available within minutes) →
    Create new release.
 2. Keep **Google-generated key** for Play App Signing when asked.
-3. Upload `shapecoach-1.1.2.aab`, add release notes ("First release"), save and roll out.
+3. Upload `shapecoach-1.1.3.aab`, add release notes ("First release"), save and roll out.
 4. Add yourself as a tester and install the app from the opt-in link on your phone.
 
 ## 4. Create the subscription
@@ -204,7 +204,7 @@ installed app gets them immediately. Rebuild the Android bundle only to change t
    `android/twa-manifest.json`.
 2. Push; the *Android app* workflow publishes the unsigned bundle to the `android-build` branch,
    and its emulator job publishes screenshots and a report to `android-build/smoke/`.
-3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapecoach-1.1.3.aab`.
+3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapecoach-1.1.4.aab`.
 4. Upload it as a new release.
 
 ### Moving to your own domain

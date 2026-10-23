@@ -35,6 +35,7 @@ grep -q "$SITE" "$OUT/launch-ui.xml" && log "URL BAR VISIBLE: yes" || log "URL B
 adb forward tcp:9222 localabstract:chrome_devtools_remote > /dev/null
 node "$(dirname "$0")/android-smoke-cdp.mjs" 9222 "$OUT" 2>&1 | tee -a "$OUT/result.txt"
 
-adb logcat -d | grep -iE 'shapecoach|TrustedWebActivity|TwaLauncher|chromium.*(CONSOLE|Uncaught)|AndroidRuntime|FATAL' | tail -150 > "$OUT/logcat.txt"
+adb logcat -d | grep -iE 'shapecoach|TrustedWebActivity|TwaLauncher|TWAConnectionPool|DelegationService|DigitalGoods|PlayBilling|BillingClient|chromium.*(CONSOLE|Uncaught)|AndroidRuntime|FATAL' | tail -150 > "$OUT/logcat.txt"
 grep -q 'FATAL EXCEPTION' "$OUT/logcat.txt" && log "CRASH: yes" || log "CRASH: none"
+grep -q 'No TWA candidates' "$OUT/logcat.txt" && log "CHROME FOUND THE APP'S DELEGATION SERVICE: no" || log "CHROME FOUND THE APP'S DELEGATION SERVICE: yes"
 exit 0
