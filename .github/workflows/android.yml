@@ -9,7 +9,7 @@ name: Android app
 on:
   push:
     branches: [main, 'claude/**']
-    paths: ['android/**', '.github/workflows/android.yml', 'scripts/android-smoke.sh']
+    paths: ['android/**', '.github/workflows/android.yml', 'scripts/android-smoke*']
   workflow_dispatch:
 
 permissions:
@@ -85,6 +85,10 @@ jobs:
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" --licenses > /dev/null || true
           "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       - name: Build the debug app
         working-directory: android
