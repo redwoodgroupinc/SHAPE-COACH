@@ -185,8 +185,10 @@
 
         
             
+        <!-- Google Play purchases started by the website. Replaces Android Browser Helper's
+             PaymentActivity so that a plan's free-trial offer is bought when Play offers it. -->
         <activity
-            android:name="com.google.androidbrowserhelper.playbilling.provider.PaymentActivity"
+            android:name=".TrialPaymentActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|keyboard|orientation|screenLayout|screenSize"
             android:exported="true">

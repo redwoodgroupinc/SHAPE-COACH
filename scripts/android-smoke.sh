@@ -37,5 +37,6 @@ node "$(dirname "$0")/android-smoke-cdp.mjs" 9222 "$OUT" 2>&1 | tee -a "$OUT/res
 
 adb logcat -d | grep -iE 'shapecoach|TrustedWebActivity|TwaLauncher|TWAConnectionPool|DelegationService|DigitalGoods|PlayBilling|BillingClient|chromium.*(CONSOLE|Uncaught)|AndroidRuntime|FATAL' | tail -150 > "$OUT/logcat.txt"
 grep -q 'FATAL EXCEPTION' "$OUT/logcat.txt" && log "CRASH: yes" || log "CRASH: none"
+grep -q 'ShapeCoachPayment: Purchase requested for shapecoach_premium_yearly' "$OUT/logcat.txt" && log "APP PAYMENT SCREEN OPENED: yes ($(grep -m1 -oE 'ShapeCoachPayment: (Google|Launching|Could|No |Purchase flow)[^\r]*' "$OUT/logcat.txt"))" || log "APP PAYMENT SCREEN OPENED: no"
 grep -q 'No TWA candidates' "$OUT/logcat.txt" && log "CHROME FOUND THE APP'S DELEGATION SERVICE: no" || log "CHROME FOUND THE APP'S DELEGATION SERVICE: yes"
 exit 0

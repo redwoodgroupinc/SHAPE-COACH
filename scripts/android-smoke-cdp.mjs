@@ -84,6 +84,21 @@ const digitalGoods = await evaluate(`window.getDigitalGoodsService('https://play
   .then((s) => s.getDetails(['shapecoach_premium', 'shapecoach_premium_yearly']))
   .then((d) => 'details ' + JSON.stringify(d), (e) => 'error ' + e.name + ': ' + e.message)`);
 console.log(`DIGITAL GOODS API: ${digitalGoods}`);
+// A purchase goes from the page through Chrome to the app's payment activity, which answers
+// with an error here because the emulator has no Play Store; the point is the round trip.
+const payment = (await send('Runtime.evaluate', {
+  expression: `Promise.race([
+    new PaymentRequest([{ supportedMethods: 'https://play.google.com/billing', data: { sku: 'shapecoach_premium_yearly' } }],
+      { total: { label: 'ShapeCoach Premium', amount: { currency: 'USD', value: '0' } } })
+      .show().then((r) => 'response ' + JSON.stringify(r.details), (e) => 'error ' + e.name + ': ' + e.message),
+    new Promise((resolve) => setTimeout(() => resolve('no answer within 30 s'), 30000)),
+  ])`,
+  awaitPromise: true,
+  returnByValue: true,
+  userGesture: true,
+})).result?.result?.value;
+console.log(`PAYMENT REQUEST: ${payment}`);
+await sleep(2000);
 
 await evaluate(`document.querySelector('.paywall-demo')?.click(), true`);
 await sleep(30000);
@@ -92,5 +107,5 @@ screenshot('2-demo');
 console.log(`DEMO RUNNING: ${inDemo.mode === 'demo' && inDemo.running ? 'yes' : 'no'} (exercise "${inDemo.exercise}", reps ${inDemo.reps}, skeleton pixels drawn ${inDemo.overlayPixelsDrawn})`);
 
 console.log(`PAGE ERRORS: ${errors.length ? errors.length : 'none'}`);
-writeFileSync(`${out}/app-state.json`, `${JSON.stringify({ onLaunch, digitalGoods, inDemo, errors }, null, 2)}\n`);
+writeFileSync(`${out}/app-state.json`, `${JSON.stringify({ onLaunch, digitalGoods, payment, inDemo, errors }, null, 2)}\n`);
 ws.close();
