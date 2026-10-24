@@ -21,7 +21,7 @@ plugins {
 }
 
 def twaManifest = [
-    applicationId: 'net.shapecoach.app',
+    applicationId: 'com.shapecoachai',
     hostName: 'shapecoach-theta.vercel.app', // The domain being opened in the TWA.
     launchUrl: '/app.html?source=android', // The start path for the TWA. Must be relative to the domain.
     name: 'ShapeCoach', // The application name.
@@ -54,14 +54,14 @@ def twaManifest = [
 
 android {
     compileSdkVersion 36
-    namespace "net.shapecoach.app"
+    namespace "com.shapecoachai"
     defaultConfig {
-        applicationId "net.shapecoach.app"
+        applicationId "com.shapecoachai"
         // 24 (Android 7.0) is the minimum for Google Play's automatic protection.
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 7
-        versionName "1.1.5"
+        versionCode 8
+        versionName "1.1.6"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name

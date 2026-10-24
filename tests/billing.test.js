@@ -35,7 +35,7 @@ test('the app is recognised from its launch URL or referrer, and remembered for 
   assert.equal(inAndroidApp(win), true);
   win.location.search = '';
   assert.equal(inAndroidApp(win), true, 'remembered after navigating');
-  assert.equal(inAndroidApp(fakeWindow({ referrer: 'android-app://net.shapecoach.app/' })), true);
+  assert.equal(inAndroidApp(fakeWindow({ referrer: 'android-app://com.shapecoachai/' })), true);
   assert.equal(inAndroidApp(fakeWindow({ search: '?demo' })), false, 'the website is not the app');
 });
 
@@ -107,12 +107,12 @@ test('premium status: active when Play lists either plan, with Play\'s local pri
   assert.equal(status.activePlan, YEARLY);
   assert.match(status.plans[0].amount, /59\.99/);
   assert.equal(status.purchases.length, 1);
-  assert.equal(manageUrl(status.activePlan), `https://play.google.com/store/account/subscriptions?sku=${YEARLY}&package=net.shapecoach.app`);
+  assert.equal(manageUrl(status.activePlan), `https://play.google.com/store/account/subscriptions?sku=${YEARLY}&package=com.shapecoachai`);
 
   const none = await premiumStatus(fakeWindow({ service: { listPurchases: async () => [], getDetails: async () => [] } }));
   assert.equal(none.active, false);
   assert.deepEqual(none.plans, describePlans());
-  assert.equal(manageUrl(null), 'https://play.google.com/store/account/subscriptions?package=net.shapecoach.app');
+  assert.equal(manageUrl(null), 'https://play.google.com/store/account/subscriptions?package=com.shapecoachai');
 });
 
 test('subscribing verifies the purchase with our server before completing the payment', async () => {

@@ -7,7 +7,7 @@
 // App integrity › App signing) into the Vercel environment variable PLAY_APP_SIGNING_SHA256 and
 // redeploy. Several fingerprints can be separated by commas or spaces.
 
-export const PACKAGE_NAME = 'net.shapecoach.app';
+export const PACKAGE_NAME = 'com.shapecoachai';
 export const UPLOAD_KEY_SHA256 = 'B7:1B:1C:01:5D:47:F6:C7:15:56:BE:95:AD:A9:3D:82:51:39:E5:B2:0D:60:E3:07:E2:5C:E8:9E:69:C6:BF:FD';
 
 /** "b71b1c…" or "B7:1B:…" → "B7:1B:…"; null if it isn't a SHA-256 fingerprint. */

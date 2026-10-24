@@ -10,7 +10,7 @@
 // API only exposes the first eligible base plan of a subscription.
 
 export const PLAY_BILLING = 'https://play.google.com/billing';
-export const ANDROID_PACKAGE = 'net.shapecoach.app';
+export const ANDROID_PACKAGE = 'com.shapecoachai';
 export const VERIFY_URL = '/api/verify-purchase';
 
 /** ShapeCoach Premium plans, best value first. listPrice is shown until Google Play answers. */

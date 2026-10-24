@@ -3,7 +3,7 @@
 // app and links to Google Play. This runs before the page renders, so nothing flashes.
 (function () {
   var fromLaunch = new URLSearchParams(location.search).get('source') === 'android';
-  var fromReferrer = document.referrer.indexOf('android-app://net.shapecoach.app') === 0;
+  var fromReferrer = document.referrer.indexOf('android-app://com.shapecoachai') === 0;
   var remembered = false;
   try {
     remembered = sessionStorage.getItem('shapecoach.androidApp') === '1';

@@ -25,7 +25,7 @@ adb shell am force-stop com.android.chrome
 adb shell settings put global package_verifier_enable 0 > /dev/null 2>&1 || true
 
 adb logcat -c
-adb shell monkey -p net.shapecoach.app -c android.intent.category.LAUNCHER 1 > /dev/null
+adb shell monkey -p com.shapecoachai -c android.intent.category.LAUNCHER 1 > /dev/null
 sleep 30
 log "TOP ACTIVITY: $(adb shell dumpsys activity activities | grep -m1 -E 'topResumedActivity|mResumedActivity' | sed 's/^ *//')"
 adb shell uiautomator dump /sdcard/ui.xml > /dev/null 2>&1; adb pull /sdcard/ui.xml "$OUT/launch-ui.xml" > /dev/null 2>&1

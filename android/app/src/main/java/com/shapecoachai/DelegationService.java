@@ -1,4 +1,4 @@
-package net.shapecoach.app;
+package com.shapecoachai;
 
 
 import com.google.androidbrowserhelper.playbilling.digitalgoods.DigitalGoodsRequestHandler;

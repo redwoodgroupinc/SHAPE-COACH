@@ -1,4 +1,4 @@
-package net.shapecoach.app;
+package com.shapecoachai;
 
 import android.app.Activity;
 import android.content.ComponentName;

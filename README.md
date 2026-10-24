@@ -190,7 +190,7 @@ scripts/          dev server, Android bundle signing, Android emulator smoke tes
 ## Android app and ShapeCoach Premium
 
 `android/` is a [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) Trusted Web Activity
-(package `net.shapecoach.app`) that opens `app.html?source=android` in Chrome, so the camera,
+(package `com.shapecoachai`) that opens `app.html?source=android` in Chrome, so the camera,
 pose model and voice behave exactly as on the web. Inside the app, the live coach and video
 analysis need **ShapeCoach Premium**: Monthly (`shapecoach_premium`, US$9.99) or Yearly
 (`shapecoach_premium_yearly`, US$59.99), each with a 7-day free trial for new subscribers, sold through Google

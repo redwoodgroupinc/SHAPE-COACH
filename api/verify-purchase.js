@@ -8,7 +8,7 @@
 
 import { createSign } from 'node:crypto';
 
-export const PACKAGE_NAME = 'net.shapecoach.app';
+export const PACKAGE_NAME = 'com.shapecoachai';
 // ShapeCoach Premium plans: monthly and yearly, each its own Play subscription.
 export const PRODUCT_IDS = ['shapecoach_premium', 'shapecoach_premium_yearly'];
 const SCOPE = 'https://www.googleapis.com/auth/androidpublisher';
