@@ -57,10 +57,11 @@ android {
     namespace "net.shapecoach.app"
     defaultConfig {
         applicationId "net.shapecoach.app"
-        minSdkVersion 23
+        // 24 (Android 7.0) is the minimum for Google Play's automatic protection.
+        minSdkVersion 24
         targetSdkVersion 36
-        versionCode 6
-        versionName "1.1.4"
+        versionCode 7
+        versionName "1.1.5"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name

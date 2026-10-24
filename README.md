@@ -41,7 +41,7 @@ the coach back.
 | --- | --- | --- |
 | **Android** (10+, current Chrome) | Pixel 6–9, Galaxy S21–S24, Snapdragon 888 / 8 Gen 1–3, Tensor | Galaxy A54/A55/A56 and similar 2022+ mid-range; other phones with 4 GB+ RAM, slower |
 
-The app installs on Android 6.0 and later, and needs Chrome 108 or newer (svh units set the floor).
+The app installs on Android 7.0 and later, and needs Chrome 108 or newer (svh units set the floor).
 
 **Known engine bug.** MediaPipe's web GPU path stalls on Snapdragon 8 Elite / 8 Elite Gen 5 / 8s Gen 3
 (Adreno 830/840/735: Galaxy S25, OnePlus 13, Xiaomi 15), as reported in

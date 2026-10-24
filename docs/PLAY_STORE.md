@@ -12,23 +12,23 @@ page in a normal browser redirects to it.
 | --- | --- |
 | App name | ShapeCoach |
 | Package name | `net.shapecoach.app` (permanent once uploaded) |
-| Version | 1.1.4 (version code 6) |
+| Version | 1.1.5 (version code 7) |
 | Monthly subscription | product ID `shapecoach_premium`, base plan `monthly`, 1 month, US$9.99 |
 | Yearly subscription | product ID `shapecoach_premium_yearly`, base plan `yearly`, 1 year, US$59.99 |
 | Free trial | offer `free-trial` on each base plan: 7 days free, new customers only |
 | Website (app content) | https://shapecoach-theta.vercel.app |
 | Privacy policy | https://shapecoach-theta.vercel.app/privacy.html |
 | Terms | https://shapecoach-theta.vercel.app/terms.html |
-| Target / min Android | Android 16 (API 36) / Android 6 (API 23) |
+| Target / min Android | Android 16 (API 36) / Android 7 (API 24, required by Play's automatic protection) |
 | Play Billing | Android Browser Helper billing 1.2.0 (Play Billing Library 8.3) |
 | Permissions | Internet, network state, Google Play Billing (the camera is asked for by Chrome) |
 
 ## What you need
 
-- **`shapecoach-1.1.4.aab`**: the signed release bundle to upload. It replaces every earlier
-  bundle (1.0.0 to 1.1.3: up to 1.1.2 can't use Google Play Billing, and 1.1.3 could charge a
-  person eligible for the free trial straight away); if you already uploaded one of those, upload
-  this as a new release. It is built by the *Android app* GitHub workflow (unsigned, on the `android-build`
+- **`shapecoach-1.1.5.aab`**: the signed release bundle to upload. It replaces every earlier
+  bundle (1.0.0 to 1.1.4: up to 1.1.2 can't use Google Play Billing, 1.1.3 could charge a person
+  eligible for the free trial straight away, and 1.1.4 allowed Android 6, which Play's automatic
+  protection refuses); if you already uploaded one of those, upload this as a new release. It is built by the *Android app* GitHub workflow (unsigned, on the `android-build`
   branch) and signed with the upload key.
 - **`shapecoach-upload.jks`** and its password: the **upload key**. Keep both private and backed
   up (for example in a password manager). Never commit them. You need them for every update; if
@@ -64,7 +64,7 @@ that a free app can't be changed to paid later.)
 1. Test and release → Testing → **Internal testing** (just you, available within minutes) →
    Create new release.
 2. Keep **Google-generated key** for Play App Signing when asked.
-3. Upload `shapecoach-1.1.4.aab`, add release notes ("First release"), save and roll out.
+3. Upload `shapecoach-1.1.5.aab`, add release notes ("First release"), save and roll out.
 4. Add yourself as a tester and install the app from the opt-in link on your phone.
 
 ## 4. Create the two subscriptions
@@ -233,7 +233,7 @@ installed app gets them immediately. Rebuild the Android bundle only to change t
    `android/twa-manifest.json`.
 2. Push; the *Android app* workflow publishes the unsigned bundle to the `android-build` branch,
    and its emulator job publishes screenshots and a report to `android-build/smoke/`.
-3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapecoach-1.1.5.aab`.
+3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapecoach-1.1.6.aab`.
 4. Upload it as a new release.
 
 ### Moving to your own domain
