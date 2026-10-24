@@ -62,6 +62,17 @@ export function periodLabel(iso) {
   return count === 1 ? `a ${unit}` : `every ${count} ${unit}s`;
 }
 
+/**
+ * A free trial's length from an ISO 8601 period: P7D or P1W → { length: '7 days', short: '7-day' }.
+ * null when there is no trial.
+ */
+export function trialLabel(iso) {
+  const match = /^P(\d+)([DWM])$/.exec(String(iso ?? ''));
+  if (!match || Number(match[1]) === 0) return null;
+  const [count, unit] = match[2] === 'W' ? [Number(match[1]) * 7, 'day'] : [Number(match[1]), match[2] === 'D' ? 'day' : 'month'];
+  return { length: `${count} ${unit}${count === 1 ? '' : 's'}`, short: `${count}-${unit}` };
+}
+
 /** Length of a P<n>M or P<n>Y period in months; null for other periods. */
 function months(iso) {
   const match = /^P(\d+)([MY])$/.exec(String(iso ?? ''));
@@ -70,16 +81,22 @@ function months(iso) {
 
 /**
  * The plans as the paywall shows them, with Google Play's prices where it gave them.
- * @returns {Array<{id: string, name: string, amount: string, period: string, perMonth: string|null, save: number|null}>}
+ * @returns {Array<{id: string, name: string, amount: string, period: string, perMonth: string|null, save: number|null, trial: {length: string, short: string}|null}>}
  */
 export function describePlans(details = [], locale) {
   const plans = PLANS.map((plan) => {
     const item = details.find((d) => d.itemId === plan.id);
     const fromPlay = item?.price?.currency && item.price.value !== undefined;
-    return { id: plan.id, price: fromPlay ? item.price : plan.listPrice, period: (fromPlay && item.subscriptionPeriod) || plan.period };
+    return {
+      id: plan.id,
+      price: fromPlay ? item.price : plan.listPrice,
+      period: (fromPlay && item.subscriptionPeriod) || plan.period,
+      // Google Play reports a trial only to people eligible for it (new subscribers).
+      trial: fromPlay ? trialLabel(item.freeTrialPeriod) : null,
+    };
   });
   const monthly = plans.find((plan) => months(plan.period) === 1);
-  return plans.map(({ id, price, period }) => {
+  return plans.map(({ id, price, period, trial }) => {
     const length = months(period);
     const perMonth = length > 1 ? formatPrice({ currency: price.currency, value: Number(price.value) / length }, locale) : null;
     // Saving against paying monthly for the same time, only when both prices share a currency.
@@ -93,6 +110,7 @@ export function describePlans(details = [], locale) {
       period: periodLabel(period) ?? '',
       perMonth,
       save: save > 0 ? save : null,
+      trial,
     };
   });
 }

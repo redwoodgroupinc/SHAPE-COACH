@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 import {
-  inAndroidApp, formatPrice, periodLabel, premiumStatus, subscribe, verifyPurchase, acknowledgeOwned, describePlans, manageUrl,
+  inAndroidApp, formatPrice, periodLabel, premiumStatus, subscribe, verifyPurchase, acknowledgeOwned, describePlans, manageUrl, trialLabel,
   PLAY_BILLING, PLAN_IDS, DEFAULT_PLAN,
 } from '../assets/js/app/billing.js';
 import handler, { signedAssertion, verifyAndAcknowledge, PACKAGE_NAME, PRODUCT_IDS } from '../api/verify-purchase.js';
@@ -55,9 +55,23 @@ test('two plans: yearly (the default, best value) and monthly, at their list pri
   assert.equal(DEFAULT_PLAN, YEARLY);
   assert.deepEqual(PRODUCT_IDS.slice().sort(), PLAN_IDS.slice().sort(), 'the server accepts exactly the app\'s plans');
   assert.deepEqual(describePlans([], 'en-US'), [
-    { id: YEARLY, name: 'Yearly', amount: '$59.99', period: 'a year', perMonth: '$5.00', save: 50 },
-    { id: MONTHLY, name: 'Monthly', amount: '$9.99', period: 'a month', perMonth: null, save: null },
+    { id: YEARLY, name: 'Yearly', amount: '$59.99', period: 'a year', perMonth: '$5.00', save: 50, trial: null },
+    { id: MONTHLY, name: 'Monthly', amount: '$9.99', period: 'a month', perMonth: null, save: null, trial: null },
   ]);
+});
+
+test('a free trial is shown only when Google Play reports one for this person', () => {
+  assert.deepEqual(trialLabel('P7D'), { length: '7 days', short: '7-day' });
+  assert.deepEqual(trialLabel('P1W'), { length: '7 days', short: '7-day' });
+  assert.deepEqual(trialLabel('P1M'), { length: '1 month', short: '1-month' });
+  assert.equal(trialLabel(''), null);
+  assert.equal(trialLabel(undefined), null);
+  const withTrial = describePlans([
+    { itemId: YEARLY, price: { currency: 'USD', value: '59.99' }, subscriptionPeriod: 'P1Y', freeTrialPeriod: 'P7D' },
+    { itemId: MONTHLY, price: { currency: 'USD', value: '9.99' }, subscriptionPeriod: 'P1M', freeTrialPeriod: '' },
+  ], 'en-US');
+  assert.deepEqual(withTrial.map((p) => p.trial), [{ length: '7 days', short: '7-day' }, null], 'already used the monthly trial');
+  assert.ok(describePlans([], 'en-US').every((p) => p.trial === null), 'no promise of a trial before Google Play answers');
 });
 
 test('plans use Google Play\'s local prices, and the saving follows them', () => {

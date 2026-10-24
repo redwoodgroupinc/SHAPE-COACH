@@ -12,9 +12,10 @@ page in a normal browser redirects to it.
 | --- | --- |
 | App name | ShapeCoach |
 | Package name | `net.shapecoach.app` (permanent once uploaded) |
-| Version | 1.1.3 (version code 5) |
+| Version | 1.1.4 (version code 6) |
 | Monthly subscription | product ID `shapecoach_premium`, base plan `monthly`, 1 month, US$9.99 |
 | Yearly subscription | product ID `shapecoach_premium_yearly`, base plan `yearly`, 1 year, US$59.99 |
+| Free trial | offer `free-trial` on each base plan: 7 days free, new customers only |
 | Website (app content) | https://shapecoach-theta.vercel.app |
 | Privacy policy | https://shapecoach-theta.vercel.app/privacy.html |
 | Terms | https://shapecoach-theta.vercel.app/terms.html |
@@ -24,9 +25,10 @@ page in a normal browser redirects to it.
 
 ## What you need
 
-- **`shapecoach-1.1.3.aab`**: the signed release bundle to upload. It replaces every earlier
-  bundle (1.0.0 to 1.1.2, which can't use Google Play Billing); if you already uploaded one of
-  those, upload this as a new release. It is built by the *Android app* GitHub workflow (unsigned, on the `android-build`
+- **`shapecoach-1.1.4.aab`**: the signed release bundle to upload. It replaces every earlier
+  bundle (1.0.0 to 1.1.3: up to 1.1.2 can't use Google Play Billing, and 1.1.3 could charge a
+  person eligible for the free trial straight away); if you already uploaded one of those, upload
+  this as a new release. It is built by the *Android app* GitHub workflow (unsigned, on the `android-build`
   branch) and signed with the upload key.
 - **`shapecoach-upload.jks`** and its password: the **upload key**. Keep both private and backed
   up (for example in a password manager). Never commit them. You need them for every update; if
@@ -62,7 +64,7 @@ that a free app can't be changed to paid later.)
 1. Test and release → Testing → **Internal testing** (just you, available within minutes) →
    Create new release.
 2. Keep **Google-generated key** for Play App Signing when asked.
-3. Upload `shapecoach-1.1.3.aab`, add release notes ("First release"), save and roll out.
+3. Upload `shapecoach-1.1.4.aab`, add release notes ("First release"), save and roll out.
 4. Add yourself as a tester and install the app from the opt-in link on your phone.
 
 ## 4. Create the two subscriptions
@@ -83,10 +85,19 @@ only after a bundle with the billing permission is uploaded, which step 3 did.)
 2. Add a base plan: ID **`yearly`**, auto-renewing, billing period **1 year**, price
    **US$59.99**. Let Play set local prices, then **Activate** it.
 
+**7-day free trial** (do this for both base plans)
+
+1. Open the base plan → **Add offer**. Offer ID **`free-trial`**.
+2. Eligibility: **New customer acquisition** → **Never had any subscription** (one trial per
+   person, so nobody can take the monthly trial and then the yearly one).
+3. Add a phase: **Free trial**, duration **7 days**. Save and **Activate**.
+
 Each plan must be its own subscription with **one** base plan: through the Digital Goods API the
 app sees only the first eligible base plan of each subscription. The app shows both plans with
 Google Play's local prices, preselects Yearly and labels its saving against paying monthly
-("Save 50%" at the US prices). Optional free-trial offers are shown as Google Play offers them.
+("Save 50%" at the US prices). It shows the trial ("Start 7-day free trial") only to people
+Google Play says are eligible, and its purchase screen (`TrialPaymentActivity`) buys the
+free-trial offer for them and the plain plan for everyone else.
 If you already created `shapecoach_premium` at US$14.99, change its base plan price to US$9.99
 (new subscribers get the new price straight away).
 
@@ -135,8 +146,9 @@ data (or reinstall the app) after updating.
 2. Open the app: the ShapeCoach Premium screen appears straight away, with the price from Google
    Play. Subscribe and check that the camera coach starts. Settings in the app shows *ShapeCoach
    Premium: Active* and a **Manage** link.
-3. Try both plans with a license tester. In Play Console → **Order management**, each test order
-   should show as acknowledged.
+3. Try both plans with license testers. A tester who never subscribed should see "Start 7-day
+   free trial" and a free trial in Google Play's purchase sheet; test trials last a few minutes.
+   In Play Console → **Order management**, each test order should show as acknowledged.
 
 ## 8. App content (Policy and programs → App content)
 
@@ -147,7 +159,8 @@ data (or reinstall the app) after updating.
   subscribing, tap *Watch the free demo instead* at the bottom of that screen: the demo runs the
   full coaching experience (exercise recognition, rep counting, form cues and voice) on a
   recorded athlete. The live camera coach and video analysis need the ShapeCoach Premium
-  subscription (US$9.99 a month or US$59.99 a year) through Google Play Billing. No login is needed."
+  subscription (7 days free for new subscribers, then US$9.99 a month or US$59.99 a year) through
+  Google Play Billing. No login is needed."
 - **Content rating**: complete the questionnaire (category: all other app types). Answer no to
   violence, sexuality, language, controlled substances, gambling, user interaction/sharing and
   location; yes to digital purchases.
@@ -187,8 +200,8 @@ data (or reinstall the app) after updating.
   > • Workout summaries with form score, clean reps and time per rep
   > • Private by design: pose tracking runs on your phone and video is never uploaded
   >
-  > ShapeCoach Premium unlocks the live camera coach and video analysis for US$9.99 a month, or
-  > US$59.99 a year (half the monthly price). Prices are shown in your local currency before you
+  > Try ShapeCoach Premium free for 7 days. It unlocks the live camera coach and video analysis,
+  > then costs US$9.99 a month, or US$59.99 a year (half the monthly price). Prices are shown in your local currency before you
   > subscribe. The subscription renews at the end of each month or year until you cancel in Google
   > Play. A demo is free.
   >
@@ -220,7 +233,7 @@ installed app gets them immediately. Rebuild the Android bundle only to change t
    `android/twa-manifest.json`.
 2. Push; the *Android app* workflow publishes the unsigned bundle to the `android-build` branch,
    and its emulator job publishes screenshots and a report to `android-build/smoke/`.
-3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapecoach-1.1.4.aab`.
+3. Sign it: `scripts/sign-android.sh shapecoach-unsigned.aab shapecoach-upload.jks shapecoach-1.1.5.aab`.
 4. Upload it as a new release.
 
 ### Moving to your own domain

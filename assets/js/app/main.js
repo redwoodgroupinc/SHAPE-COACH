@@ -1167,6 +1167,7 @@ const premium = {
 const paywall = {
   dialog: $('paywall-dialog'),
   plans: $('paywall-plans'),
+  billing: $('paywall-billing'),
   error: $('paywall-error'),
   subscribe: $('paywall-subscribe'),
   restore: $('paywall-restore'),
@@ -1195,13 +1196,13 @@ function renderPlans() {
   const cards = premium.plans.map((plan) => {
     const card = document.createElement('label');
     card.className = 'plan';
-    card.classList.toggle('is-selected', plan.id === premium.selected);
     const input = Object.assign(document.createElement('input'), { type: 'radio', name: 'plan', value: plan.id, checked: plan.id === premium.selected });
     const name = Object.assign(document.createElement('span'), { className: 'plan-name', textContent: plan.name });
     if (plan.save) name.append(Object.assign(document.createElement('span'), { className: 'plan-badge', textContent: `Save ${plan.save}%` }));
+    const billing = plan.perMonth ? `${plan.perMonth} a month, billed ${plan.name.toLowerCase()}` : `billed ${plan.name.toLowerCase()}`;
     const note = Object.assign(document.createElement('span'), {
       className: 'plan-note',
-      textContent: plan.perMonth ? `${plan.perMonth} a month, billed ${plan.name.toLowerCase()}` : `Billed ${plan.name.toLowerCase()}`,
+      textContent: plan.trial ? `Free for ${plan.trial.length}, then ${billing}` : billing.charAt(0).toUpperCase() + billing.slice(1),
     });
     const price = Object.assign(document.createElement('span'), { className: 'plan-price' });
     price.append(Object.assign(document.createElement('strong'), { textContent: plan.amount }), Object.assign(document.createElement('small'), { textContent: plan.period }));
@@ -1209,6 +1210,20 @@ function renderPlans() {
     return card;
   });
   paywall.plans.replaceChildren(...cards);
+  renderSelection();
+}
+
+/** The button and billing line follow the selected plan, including its free trial if any. */
+function renderSelection() {
+  const plan = premium.plans.find((p) => p.id === premium.selected);
+  for (const card of paywall.plans.querySelectorAll('.plan')) {
+    card.classList.toggle('is-selected', card.querySelector('input').value === premium.selected);
+  }
+  if (!plan) return;
+  paywall.subscribe.textContent = plan.trial ? `Start ${plan.trial.short} free trial` : 'Subscribe';
+  paywall.billing.textContent = plan.trial
+    ? `Free for ${plan.trial.length}, then ${plan.amount} ${plan.period}, billed through Google Play. Cancel before the trial ends and you won't be charged.`
+    : `Billed through Google Play: ${plan.amount} ${plan.period}.`;
 }
 
 function renderPremium() {
@@ -1220,7 +1235,7 @@ function renderPremium() {
   row.classList.toggle('is-active', premium.active);
   $('sub-status').textContent = premium.active
     ? 'Active. Thanks for training with ShapeCoach.'
-    : `Not subscribed · ${premium.plans.map((plan) => `${plan.amount} ${plan.period}`).join(' or ')}`;
+    : `Not subscribed · ${premium.plans.some((plan) => plan.trial) ? `${premium.plans.find((plan) => plan.trial).trial.length} free, then ` : ''}${premium.plans.map((plan) => `${plan.amount} ${plan.period}`).join(' or ')}`;
   $('sub-manage').href = manageUrl(premium.activePlan);
   $('sub-manage').hidden = !premium.active;
   $('sub-subscribe').hidden = premium.active;
@@ -1293,7 +1308,7 @@ async function onRestore() {
 paywall.plans.addEventListener('change', (event) => {
   if (event.target.name !== 'plan') return;
   premium.selected = event.target.value;
-  for (const card of paywall.plans.querySelectorAll('.plan')) card.classList.toggle('is-selected', card.contains(event.target));
+  renderSelection();
 });
 paywall.subscribe.addEventListener('click', onSubscribe);
 paywall.restore.addEventListener('click', onRestore);

@@ -193,7 +193,7 @@ scripts/          dev server, Android bundle signing, Android emulator smoke tes
 (package `net.shapecoach.app`) that opens `app.html?source=android` in Chrome, so the camera,
 pose model and voice behave exactly as on the web. Inside the app, the live coach and video
 analysis need **ShapeCoach Premium**: Monthly (`shapecoach_premium`, US$9.99) or Yearly
-(`shapecoach_premium_yearly`, US$59.99), sold through Google
+(`shapecoach_premium_yearly`, US$59.99), each with a 7-day free trial for new subscribers, sold through Google
 Play Billing via the Digital Goods and Payment Request APIs (`assets/js/app/billing.js`). Each
 purchase is acknowledged by `api/verify-purchase.js`; Play refunds unacknowledged subscriptions
 after three days. The app opens on the Premium offer for anyone not subscribed; the in-app demo
