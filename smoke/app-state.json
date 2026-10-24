@@ -1,0 +1,35 @@
+{
+  "onLaunch": {
+    "url": "https://shapecoach-theta.vercel.app/app.html?source=android",
+    "title": "ShapeCoach",
+    "paywallOpen": true,
+    "price": "Yearly\nSave 50%\n$59.99\na year\n$5.00 a month, billed yearly\nMonthly\n$9.99\na month\nBilled monthly",
+    "mode": "idle",
+    "running": false,
+    "exercise": "Detecting exercise",
+    "reps": "0",
+    "status": "Ready",
+    "overlayPixelsDrawn": 0,
+    "digitalGoodsApi": "function",
+    "paymentRequestApi": "function",
+    "userAgent": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Mobile Safari/537.36"
+  },
+  "digitalGoods": "error OperationError: clientAppUnavailable",
+  "payment": "error NotSupportedError: The payment method \"https://play.google.com/billing\" is not supported.",
+  "inDemo": {
+    "url": "https://shapecoach-theta.vercel.app/app.html?source=android",
+    "title": "ShapeCoach",
+    "paywallOpen": false,
+    "price": "YearlySave 50%$59.99a year$5.00 a month, billed yearlyMonthly$9.99a monthBilled monthly",
+    "mode": "demo",
+    "running": true,
+    "exercise": "Lunge",
+    "reps": "1",
+    "status": "Tracking",
+    "overlayPixelsDrawn": 19459,
+    "digitalGoodsApi": "function",
+    "paymentRequestApi": "function",
+    "userAgent": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Mobile Safari/537.36"
+  },
+  "errors": []
+}

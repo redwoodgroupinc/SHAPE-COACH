@@ -1,0 +1,100 @@
+10-24 06:51:51.660  2617  2617 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+10-24 06:51:51.666  2617  2617 I AndroidRuntime: Using default boot image
+10-24 06:51:51.666  2617  2617 I AndroidRuntime: Leaving lock profiling enabled
+10-24 06:51:51.930  1096  1144 I Launcher.IconCache: Database bulk icon loading failed, using fallback bulk icon loading for: ComponentInfo{com.shapecoachai/com.shapecoachai.LauncherActivity}
+10-24 06:51:52.075  2617  2617 D AndroidRuntime: Calling main entry com.android.commands.monkey.Monkey
+10-24 06:51:52.075  2617  2617 W Monkey  : args: [-p, com.shapecoachai, -c, android.intent.category.LAUNCHER, 1]
+10-24 06:51:52.076  2617  2617 W Monkey  :  arg: "com.shapecoachai"
+10-24 06:51:52.076  2617  2617 W Monkey  : data="com.shapecoachai"
+10-24 06:51:52.328   522   805 I SdkSandboxManager: No SDKs used. Skipping SDK data reconcilation for CallingInfo{mUid=10192, mPackageName='com.shapecoachai, mAppProcessToken='null'}
+10-24 06:51:52.641   522   905 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.shapecoachai/.LauncherActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+10-24 06:51:52.827   522   542 I BLASTSyncEngine: Unfinished container: Task{ed695cc #8 type=standard A=10192:com.shapecoachai}
+10-24 06:51:52.827   522   542 I BLASTSyncEngine: Unfinished container: ActivityRecord{e91182b u0 com.shapecoachai/.LauncherActivity t8}
+10-24 06:51:52.834   522   539 V WindowManager:     info={id=5 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{RemoteToken{3469c73 Task{ed695cc #8 type=standard A=10192:com.shapecoachai}}} m=OPEN f=TRANSLUCENT|MOVE_TO_TOP leash=Surface(name=Task=8)/@0x2dc52c4 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{RemoteToken{cadd730 Task{bd1b042 #7 type=home I=com.google.android.apps.nexuslauncher/.NexusLauncherActivity}}} m=OPEN f=SHOW_WALLPAPER leash=Surface(name=Task=7)/@0x50239d7 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{RemoteToken{20bf0e2 Task{9174876 #5 type=home A=1000:com.android.settings.FallbackHome}}} m=CLOSE f=NONE leash=Surface(name=Task=5)/@0xfcfd556 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{null m=TO_FRONT f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{41a6ad7 token=android.os.Binder@2562a56})/@0x172c371 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+10-24 06:51:52.872  2752  2752 I om.shapecoachai: Late-enabling -Xcheck:jni
+10-24 06:51:52.924  2752  2752 I om.shapecoachai: Using CollectorTypeCC GC.
+10-24 06:51:52.933  2752  2752 W om.shapecoachai: Unexpected CPU variant for x86: x86_64.
+10-24 06:51:52.933  2752  2752 W om.shapecoachai: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-24 06:51:53.458   522   553 I ActivityManager: Start proc 2752:com.shapecoachai/u0a192 for next-top-activity {com.shapecoachai/com.shapecoachai.LauncherActivity}
+10-24 06:51:53.472  2617  2617 I AndroidRuntime: VM exiting with result code 0.
+10-24 06:51:53.552  2752  2752 W ziparchive: Unable to open '/data/app/~~PBSatqh48OKbDDK5Ni-wiQ==/com.shapecoachai-w1hgVarBZJQcqkRhM_CZxw==/base.dm': No such file or directory
+10-24 06:51:53.552  2752  2752 W ziparchive: Unable to open '/data/app/~~PBSatqh48OKbDDK5Ni-wiQ==/com.shapecoachai-w1hgVarBZJQcqkRhM_CZxw==/base.dm': No such file or directory
+10-24 06:51:53.741   835   835 I SafetyLabelChangedBroadcastReceiver: received broadcast packageName: com.shapecoachai, current user: UserHandle{0}, packageChangeEvent: NEW_INSTALL, intent user: UserHandle{0}
+10-24 06:51:53.801  2752  2752 D nativeloader: Configuring clns-6 for other apk /data/app/~~PBSatqh48OKbDDK5Ni-wiQ==/com.shapecoachai-w1hgVarBZJQcqkRhM_CZxw==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~PBSatqh48OKbDDK5Ni-wiQ==/com.shapecoachai-w1hgVarBZJQcqkRhM_CZxw==/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.shapecoachai
+10-24 06:51:53.829  2752  2752 V GraphicsEnvironment: ANGLE GameManagerService for com.shapecoachai: false
+10-24 06:51:53.829  2752  2752 V GraphicsEnvironment: com.shapecoachai is not listed in per-application setting
+10-24 06:51:53.880  1056  1056 D CarrierSvcBindHelper: onPackageAdded: com.shapecoachai
+10-24 06:51:53.913  1056  1356 D ImsResolver: maybeAddedImsService, packageName: com.shapecoachai
+10-24 06:51:54.267  2752  2752 D TWALauncherActivity: Using url from Manifest: https://shapecoach-theta.vercel.app/app.html?source=android
+10-24 06:51:54.345  1056  1056 D CarrierSvcBindHelper: onPackageModified: com.shapecoachai
+10-24 06:51:54.354  1056  1356 D ImsResolver: maybeAddedImsService, packageName: com.shapecoachai
+10-24 06:51:54.593   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f5f1a8d com.google.android.youtube/10139} BLOCKED
+10-24 06:51:54.593   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{ba37442 com.google.android.googlequicksearchbox/10132} BLOCKED
+10-24 06:51:54.593   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f10cc53 com.google.android.as/10125} BLOCKED
+10-24 06:51:54.593   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{39a7990 com.google.android.gm/10141} BLOCKED
+10-24 06:51:54.593   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f2fd289 com.google.android.devicelockcontroller/10175} BLOCKED
+10-24 06:51:54.594   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{878928e com.google.android.dialer/10128} BLOCKED
+10-24 06:51:54.594   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{fd1daaf com.google.android.contacts/10155} BLOCKED
+10-24 06:51:54.594   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f559ebc com.google.android.partnersetup/10124} BLOCKED
+10-24 06:51:54.594   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f3a0e45 com.google.android.apps.youtube.music/10156} BLOCKED
+10-24 06:51:54.595   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{a6f499a com.google.android.cellbroadcastreceiver/10177} BLOCKED
+10-24 06:51:54.595   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{53beaa8 com.google.android.inputmethod.latin/10142} BLOCKED
+10-24 06:51:54.608   522  1894 D CoreBackPreview: Window{a22a4bb u0 com.shapecoachai/com.shapecoachai.LauncherActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@8ccd197, mPriority=0, mIsAnimationCallback=false}
+10-24 06:51:55.106   522   539 W ziparchive: Unable to open '/data/app/~~PBSatqh48OKbDDK5Ni-wiQ==/com.shapecoachai-w1hgVarBZJQcqkRhM_CZxw==/base.dm': No such file or directory
+10-24 06:51:55.111   522   539 I ActivityTaskManager: Displayed com.shapecoachai/.LauncherActivity for user 0: +2s737ms
+10-24 06:51:55.130   522   906 I ImeTracker: com.shapecoachai:8c9363b: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+10-24 06:51:55.144   522   906 I ImeTracker: com.shapecoachai:8c9363b: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-24 06:51:55.155  1494  1494 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=com.shapecoachai fieldId=0 fieldName=null extras=null}, false)
+10-24 06:51:56.401  2914  2914 I cr_CommandLine: COMMAND-LINE FLAGS: [_, --disable-fre, --no-default-browser-check, --no-first-run, --disable-digital-asset-link-verification-for-url=https://shapecoach-theta.vercel.app] (from /data/local/tmp/chrome-command-line)
+10-24 06:51:58.210  2752  2752 D TwaLauncher: Launching Trusted Web Activity.
+10-24 06:51:58.246   834   867 V WindowManagerShell: Transition requested: android.os.BinderProxy@39baf6e TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=8 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.shapecoachai/.LauncherActivity } baseActivity=ComponentInfo{com.shapecoachai/com.shapecoachai.LauncherActivity} topActivity=ComponentInfo{com.android.chrome/org.chromium.chrome.browser.document.ChromeLauncherActivity} origActivity=null realActivity=ComponentInfo{com.shapecoachai/com.shapecoachai.LauncherActivity} numActivities=2 lastActiveTime=46234 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@5d1660f} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=null topActivityInfo=ActivityInfo{5db369c com.google.android.apps.chrome.IntentDispatcher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isSleeping=false topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= false topActivityLetterboxed= false isFromDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden}, remoteTransition = null, displayChange = null }
+10-24 06:51:58.251   522   905 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=https://shapecoach-theta.vercel.app/... pkg=com.android.chrome cmp=com.android.chrome/com.google.android.apps.chrome.IntentDispatcher (has extras)} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+10-24 06:51:59.277  1470  1598 I IntentFilterIntentOp: Verification 2 complete. Success:false. Failed hosts:shapecoach-theta.vercel.app. [CONTEXT service_id=244 ]
+10-24 06:51:59.502  1655  1655 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.shapecoachai], userId:[0], reason:[package is added.].
+10-24 06:51:59.758  2752  3477 D ProfileInstaller: Installing profile for com.shapecoachai
+10-24 06:51:59.984   522  2033 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=https://shapecoach-theta.vercel.app/... flg=0x810000 pkg=com.android.chrome cmp=com.android.chrome/org.chromium.chrome.browser.customtabs.TranslucentCustomTabActivity (has extras)} with LAUNCH_MULTIPLE from uid 10150 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+10-24 06:52:00.244  1655  1655 I AiAiEcho: AppFetcherImpl onPackageChanged com.shapecoachai.
+10-24 06:52:00.257  1655  2833 I AiAiEcho: AppIndexer Package:[com.shapecoachai] UserProfile:[0] Enabled:[true].
+10-24 06:52:00.257  1655  2833 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.shapecoachai], userId:[0], reason:[package is updated.].
+10-24 06:52:01.807   522   539 V WindowManager: Sent Transition #6 createdAt=10-24 06:51:58.224 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=8 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.shapecoachai/.LauncherActivity } baseActivity=ComponentInfo{com.shapecoachai/com.shapecoachai.LauncherActivity} topActivity=ComponentInfo{com.android.chrome/org.chromium.chrome.browser.document.ChromeLauncherActivity} origActivity=null realActivity=ComponentInfo{com.shapecoachai/com.shapecoachai.LauncherActivity} numActivities=2 lastActiveTime=46234 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{3469c73 Task{ed695cc #8 type=standard A=10192:com.shapecoachai}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=null topActivityInfo=ActivityInfo{47a6708 com.google.android.apps.chrome.IntentDispatcher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isSleeping=false topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= false topActivityLetterboxed= false isFromDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden}, remoteTransition = null, displayChange = null }
+10-24 06:52:02.069  2914  2914 I cr_ChromeOriginVerifier: Verification skipped for https://shapecoach-theta.vercel.app due to command line flag.
+10-24 06:52:02.082  2914  2914 W TWAConnectionPool: No TWA candidates for https://shapecoach-theta.vercel.app/app.html?source=android have been registered.
+10-24 06:52:04.653   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{72a59e9 com.google.android.googlequicksearchbox/10132} BLOCKED
+10-24 06:52:04.653   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{7a3766e com.google.android.gm/10141} BLOCKED
+10-24 06:52:04.654   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{5c3210f com.google.android.rkpdapp/10189} BLOCKED
+10-24 06:52:04.654   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{8c1d59c com.google.android.contacts/10155} BLOCKED
+10-24 06:52:04.654   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{c45aba5 com.google.android.apps.youtube.music/10156} BLOCKED
+10-24 06:52:05.064   522  2801 E ActivityTaskManager: setVisibility=false while transition is not collecting or finishing ActivityRecord{e91182b u0 com.shapecoachai/.LauncherActivity t8} caller=com.android.server.wm.ActivityRecord.setVisibility:5287 com.android.server.wm.ActivityRecord.makeInvisible:6077 com.android.server.wm.EnsureActivitiesVisibleHelper.setActivityVisibilityState:226 com.android.server.wm.EnsureActivitiesVisibleHelper.process:144 com.android.server.wm.TaskFragment.updateActivityVisibilities:1157 com.android.server.wm.Task.lambda$ensureActivitiesVisible$20:4878 com.android.server.wm.Task.$r8$lambda$glAS06h6u0gde7lZWW7SuxTbP1w:0 com.android.server.wm.Task$$ExternalSyntheticLambda16.accept:0 
+10-24 06:52:07.011  2914  2914 W TWAConnectionPool: No TWA candidates for https://shapecoach-theta.vercel.app/app.html?source=android have been registered.
+10-24 06:52:07.015  2914  2914 W TWAConnectionPool: No TWA candidates for https://shapecoach-theta.vercel.app/app.html?source=android have been registered.
+10-24 06:52:10.778   522  1899 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{6c51e11 com.google.android.gm/10141} BLOCKED
+10-24 06:52:12.022  1470  4075 I BlockstoreStorage: Clearing Blockstore Data for package com.shapecoachai [CONTEXT service_id=258 ]
+10-24 06:52:13.902   522  2800 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{d30c5ab com.google.android.settings.intelligence/10118} BLOCKED
+10-24 06:52:13.907   522  2800 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{7407408 com.google.android.settings.intelligence/10118} BLOCKED
+10-24 06:52:15.030   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{1547fee com.google.android.googlequicksearchbox/10132} BLOCKED
+10-24 06:52:15.030   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{92c8f com.android.camera2/10146} BLOCKED
+10-24 06:52:15.031   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{ceb6325 com.google.android.gm/10141} BLOCKED
+10-24 06:52:15.031   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{17602ab com.google.android.devicelockcontroller/10175} BLOCKED
+10-24 06:52:15.032   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f516d08 com.google.android.rkpdapp/10189} BLOCKED
+10-24 06:52:15.036   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{1140ca1 com.google.android.settings.intelligence/10118} BLOCKED
+10-24 06:52:15.036   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{c2244dd com.google.android.projection.gearhead/10123} BLOCKED
+10-24 06:52:23.983  4771  4771 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+10-24 06:52:24.002  4771  4771 I AndroidRuntime: Using default boot image
+10-24 06:52:24.002  4771  4771 I AndroidRuntime: Leaving lock profiling enabled
+10-24 06:52:24.253  4771  4771 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+10-24 06:52:25.079   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{b1f28fc com.google.android.youtube/10139} BLOCKED
+10-24 06:52:25.079   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{9a96b85 com.google.android.as/10125} BLOCKED
+10-24 06:52:25.079   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{fda7937 com.google.android.apps.maps/10154} BLOCKED
+10-24 06:52:25.079   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{9c37dda com.google.android.contacts/10155} BLOCKED
+10-24 06:52:25.389  4771  4771 D AndroidRuntime: Shutting down VM
+10-24 06:52:27.949  2914  2914 W TWAConnectionPool: No TWA candidates for https://shapecoach-theta.vercel.app/app.html?source=android have been registered.
+10-24 06:52:27.959  2914  2914 W TWAConnectionPool: No TWA candidates for https://shapecoach-theta.vercel.app/app.html?source=android have been registered.
+10-24 06:52:36.456   522   922 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{41b3e10 com.google.android.settings.intelligence/10118} BLOCKED
+10-24 06:52:40.077   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{9b8e008 com.google.android.googlequicksearchbox/10132} BLOCKED
+10-24 06:52:40.077   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{62a03a1 com.google.android.as/10125} BLOCKED
+10-24 06:52:40.078   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{c84c9c6 com.google.android.contacts/10155} BLOCKED
+10-24 06:52:41.695   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{3e71d3a com.google.android.gm/10141} BLOCKED
+10-24 06:52:42.675  2914  2914 W TWAConnectionPool: No TWA candidates for https://shapecoach-theta.vercel.app/app.html?source=android have been registered.
+10-24 06:52:47.696   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f6955f8 com.google.android.contacts/10155} BLOCKED
+10-24 06:52:53.019   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{4cc9ad7 com.google.android.contacts/10155} BLOCKED
+10-24 06:53:03.072   522   575 I AppsFilter: interaction: PackageSetting{418f24 com.shapecoachai/10192} -> PackageSetting{f472649 com.google.android.contacts/10155} BLOCKED

@@ -1,0 +1,24 @@
+Android: 14 (API 34)
+Chrome: versionName=113.0.5672.136
+INSTALL: ok
+TOP ACTIVITY: topResumedActivity=ActivityRecord{46a736e u0 com.android.chrome/org.chromium.chrome.browser.customtabs.TranslucentCustomTabActivity t8}
+URL BAR VISIBLE: no
+PAGE: https://shapecoach-theta.vercel.app/app.html?source=android
+PAYWALL ON LAUNCH: yes (Yearly
+Save 50%
+$59.99
+a year
+$5.00 a month, billed yearly
+Monthly
+$9.99
+a month
+Billed monthly)
+PLAY BILLING APIS IN THE PAGE: Digital Goods function, Payment Request function
+DIGITAL GOODS API: error OperationError: clientAppUnavailable
+PAYMENT REQUEST: error NotSupportedError: The payment method "https://play.google.com/billing" is not supported.
+DEMO RUNNING: yes (exercise "Lunge", reps 1, skeleton pixels drawn 19459)
+PAGE ERRORS: none
+CRASH: none
+APP PAYMENT SCREEN OPENED: no
+CHROME FOUND THE APP'S DELEGATION SERVICE: no
+Source commit: ea3726ce84ab201e0c7f10ebdb6082c9387bd456
